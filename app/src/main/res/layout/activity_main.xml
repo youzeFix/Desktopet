@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Switch
+        android:text="开启桌面宠物"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/display_pet_switch" />
+
+    <Switch
+        android:text="开启接受微信消息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mychat_message_switch" />
+
+    <Button
+        android:text="闹铃"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clock_btn" />
+
+    <Button
+        android:text="蓝牙"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bluetooth_btn" />
+
+    <Button
+        android:text="宠物设置"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pet_set_btn" />
+
+    <Button
+        android:text="关于"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/about_btn" />
+
+
+</LinearLayout>
