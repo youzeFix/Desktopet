@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
@@ -139,7 +140,7 @@ public class PetWindowSmallView extends LinearLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 Glide.with(context).load(Pet.getStillImageId()).into(imageView);
-                if (xInScreen == xDownInScreen && yInScreen == yDownInScreen) {
+                if (Utilities.getDiatance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 3) {
                     //单击事件
                     Toast.makeText(context, "单件事件", Toast.LENGTH_SHORT).show();
                 }
