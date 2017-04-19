@@ -96,6 +96,9 @@ public class MainActivity extends Activity{
             }
         });
 
+        /**
+         * 闹铃按钮点击事件
+         */
         clockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +106,9 @@ public class MainActivity extends Activity{
             }
         });
 
+        /**
+         * 蓝牙按钮点击事件
+         */
         bluetoothBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +116,9 @@ public class MainActivity extends Activity{
             }
         });
 
+        /**
+         * 宠物设置按钮点击事件
+         */
         petSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +126,9 @@ public class MainActivity extends Activity{
             }
         });
 
+        /**
+         * 关于按钮点击事件
+         */
         aboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

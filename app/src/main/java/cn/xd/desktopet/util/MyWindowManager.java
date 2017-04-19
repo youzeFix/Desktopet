@@ -30,7 +30,7 @@ public class MyWindowManager {
      * @return
      */
     public static boolean isPetWindowShowing(){
-        return true;
+        return false;
     }
 
     /**移除宠物小悬浮窗
@@ -44,6 +44,20 @@ public class MyWindowManager {
      * @param context
      */
     public static void removePetBigWindow(Context context){
+
+    }
+
+    /**创建信息悬浮窗
+     * @param context
+     */
+    public static void createPetMsgWindow(Context context){
+
+    }
+
+    /**移除信息悬浮窗
+     * @param context
+     */
+    public static void removePetMsgWindow(Context context){
 
     }
 }
