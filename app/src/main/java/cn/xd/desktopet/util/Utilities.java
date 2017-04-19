@@ -33,4 +33,9 @@ public class Utilities {
 
         return statusBarHeight;
     }
+
+    public static float getInstance(){
+        return 0;
+    }
+
 }
