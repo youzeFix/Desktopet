@@ -47,7 +47,7 @@ public class MainActivity extends Activity{
         setListener();
 
 
-        MyWindowManager.createPetSmallWindow(this);
+        MyWindowManager.createPetSmallWindow(getApplicationContext());
 
 
 
