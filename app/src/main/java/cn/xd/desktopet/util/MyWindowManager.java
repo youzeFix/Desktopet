@@ -18,7 +18,6 @@ import cn.xd.desktopet.view.PetWindowSmallView;
  */
 public class MyWindowManager {
 
-    private static MyWindowManager mMyWindowManager;
     private static WindowManager mWindowManager;
     private static PetWindowSmallView mPetWindowSmallView;
     private static PetWindowBigView mPetWindowBigView;
