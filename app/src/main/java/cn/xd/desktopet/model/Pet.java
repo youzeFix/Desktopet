@@ -54,13 +54,16 @@ public class Pet {
         int resId = -1;
         switch (theme) {
             case Const.THEME0:
-                resId = R.drawable.beaver;
+                resId = R.drawable.xiaobai_usu;
                 break;
             case Const.THEME1:
-                resId = R.drawable.beaver;
+                resId = R.drawable.sinba_usu;
                 break;
             case Const.THEME2:
-                resId = R.drawable.beaver;
+                resId = R.drawable.ali_usu;
+                break;
+            case Const.THEME3:
+                resId = R.drawable.girl_usu;
                 break;
             default:
                 resId = R.drawable.beaver;
@@ -75,14 +78,15 @@ public class Pet {
     public static int getMoveImageId() {
         int randFaceId = getRandFaceId();
         int resId = -1;
+
         switch (theme){
             case Const.THEME0:
                 switch (randFaceId){
                     case Const.HAPPY:
-                       resId = R.drawable.dance;
+                       resId = R.drawable.xiaobai_happy;
                         break;
                     case Const.SAD:
-                        resId = R.drawable.dance;
+                        resId = R.drawable.xiaobai_sad;
                         break;
                 }
                 break;
@@ -90,10 +94,10 @@ public class Pet {
             case Const.THEME1:
                 switch (randFaceId){
                     case Const.HAPPY:
-                        resId = R.drawable.dance;
+                        resId = R.drawable.sinba_happy;
                         break;
                     case Const.SAD:
-                        resId = R.drawable.dance;
+                        resId = R.drawable.sinba_sad;
                         break;
                 }
                 break;
@@ -101,13 +105,25 @@ public class Pet {
             case Const.THEME2:
                 switch (randFaceId){
                     case Const.HAPPY:
-                        resId = R.drawable.dance;
+                        resId = R.drawable.ali_happy;
                         break;
                     case Const.SAD:
-                        resId = R.drawable.dance;
+                        resId = R.drawable.ali_sad;
                         break;
                 }
                 break;
+
+            case Const.THEME3:
+                switch (randFaceId){
+                    case Const.HAPPY:
+                        resId = R.drawable.girl_happy;
+                        break;
+                    case Const.SAD:
+                        resId = R.drawable.girl_sad;
+                        break;
+                }
+                break;
+
 
             default:
                 resId = R.drawable.dance;

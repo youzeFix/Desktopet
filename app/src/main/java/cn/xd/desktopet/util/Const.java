@@ -16,7 +16,8 @@ public class Const {
     public static final int THEME0 = 0;
     public static final int THEME1 = 1;
     public static final int THEME2 = 2;
-    public static final int THEME_CONUNT = 3;
+    public static final int THEME3 = 3;
+    public static final int THEME_CONUNT = 4;
 
     /**
      * 两种表情

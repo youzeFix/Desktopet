@@ -9,10 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
-
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.util.Const;
@@ -102,8 +99,8 @@ public class PetWindowSmallView extends LinearLayout {
         @Override
         public void run() {
             Glide.with(context).load(Pet.getMoveImageId()).into(imageView);
-            handler.postDelayed(mStillRunnable, 5 * Const.SECOND);  //五秒后变成静态图
-            handler.postDelayed(this, 15 * Const.SECOND);   //15秒后再成动态图
+            handler.postDelayed(mStillRunnable, 8 * Const.SECOND);  //五秒后变成静态图
+            handler.postDelayed(this, 20 * Const.SECOND);   //15秒后再成动态图
         }
     };
 
