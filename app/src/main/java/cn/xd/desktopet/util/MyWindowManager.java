@@ -92,8 +92,10 @@ public class MyWindowManager {
      *
      * @return
      */
+
     public static boolean isPetWindowShowing() {
         return mPetWindowSmallView != null || mPetWindowBigView != null;
+
     }
 
     /**
@@ -150,5 +152,19 @@ public class MyWindowManager {
      * 蓝牙接入
      */
     public static void onBluetoothIn(){
+    }
+
+    /**创建信息悬浮窗
+     * @param context
+     */
+    public static void createPetMsgWindow(Context context){
+
+    }
+
+    /**移除信息悬浮窗
+     * @param context
+     */
+    public static void removePetMsgWindow(Context context){
+
     }
 }
