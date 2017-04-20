@@ -5,6 +5,7 @@ package cn.xd.desktopet.util;
  */
 
 import android.content.Context;
+import android.graphics.Point;
 
 import java.lang.reflect.Field;
 
@@ -13,13 +14,15 @@ import java.lang.reflect.Field;
  */
 public class Utilities {
 
-    /**返回系统状态栏的高度
+    /**
+     * 返回系统状态栏的高度
+     *
      * @param context
      * @return 系统状态栏高度的像素值
      */
     public static int getStatusBarHeight(Context context) {
 
-        int statusBarHeight=0;
+        int statusBarHeight = 0;
 
         try {
             Class<?> c = Class.forName("com.android.internal.R$dimen");
@@ -33,4 +36,11 @@ public class Utilities {
 
         return statusBarHeight;
     }
+
+    public static float getDiatance(float startX, float startY, float endX, float endY) {
+        float result = 0;
+        result = (float) Math.sqrt((endY - startY) * (endY - startY) + (endX - startX) * (endX - startX));
+        return result;
+    }
+
 }

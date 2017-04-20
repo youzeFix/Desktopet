@@ -1,7 +1,11 @@
 package cn.xd.desktopet.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -46,11 +50,15 @@ public class MainActivity extends Activity{
         //设置监听器
         setListener();
 
-
-
-
-
-
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)){
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Toast.makeText(this, "请打开悬浮窗权限", Toast.LENGTH_SHORT).show();
+            }
+        }
+        MyWindowManager.createPetSmallWindow(getApplicationContext());
     }
 
     /**
@@ -78,9 +86,9 @@ public class MainActivity extends Activity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
-                    MyWindowManager.createPetSmallWindow(MainActivity.this);
+                    MyWindowManager.createPetSmallWindow(getApplicationContext());
                 else
-                    MyWindowManager.removePetSmallWindow(MainActivity.this);
+                    MyWindowManager.removePetSmallWindow(getApplicationContext());
             }
         });
         /**
