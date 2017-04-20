@@ -3,8 +3,7 @@
     android:id="@+id/pet_window_big_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8000"
-    android:orientation="vertical">
+    android:background="#8000">
 
     <LinearLayout
         android:id="@+id/cancelBigEvent"
@@ -34,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
+                android:textColor="#000000"
                 android:text="闹钟" />
         </LinearLayout>
 
@@ -45,9 +45,10 @@
             android:layout_marginLeft="5dp"
             android:background="#fff"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="3dp"
+            >
 
-            <ImageView
+           <ImageView
                 android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:src="@drawable/setting" />
@@ -55,8 +56,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                android:textColor="#000000"
                 android:text="设置" />
         </LinearLayout>
 
@@ -80,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
+                android:textColor="#000000"
                 android:text="隐藏" />
         </LinearLayout>
 
