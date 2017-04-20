@@ -86,9 +86,9 @@ public class MainActivity extends Activity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
-                    MyWindowManager.createPetSmallWindow(MainActivity.this);
+                    MyWindowManager.createPetSmallWindow(getApplicationContext());
                 else
-                    MyWindowManager.removePetSmallWindow(MainActivity.this);
+                    MyWindowManager.removePetSmallWindow(getApplicationContext());
             }
         });
         /**

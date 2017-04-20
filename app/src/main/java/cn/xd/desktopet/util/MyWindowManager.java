@@ -6,8 +6,10 @@ package cn.xd.desktopet.util;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import cn.xd.desktopet.view.PetWindowBigView;
@@ -76,8 +78,8 @@ public class MyWindowManager {
                 mBigLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
                 mBigLayoutParams.format = PixelFormat.RGBA_8888;
                 mBigLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-                mBigLayoutParams.width = mPetWindowBigView.getWidth();
-                mBigLayoutParams.height = mPetWindowBigView.getHeight();
+                mBigLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mBigLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
                 mBigLayoutParams.x = screamX / 2;
                 mBigLayoutParams.y = screamY / 2;
             }
@@ -113,7 +115,9 @@ public class MyWindowManager {
      * @param context
      */
     public static void removePetBigWindow(Context context) {
+        Log.w("remove", "removePetBigWindow: " + 1 );
         if(mPetWindowBigView != null){
+            Log.w("remove", "removePetBigWindow: " + 2 );
             WindowManager windowManager = getWindowManager(context);
             windowManager.removeView(mPetWindowBigView);
             mPetWindowBigView = null;

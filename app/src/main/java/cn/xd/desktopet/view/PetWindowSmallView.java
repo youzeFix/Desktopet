@@ -16,6 +16,8 @@ import com.bumptech.glide.util.Util;
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.util.Const;
+import cn.xd.desktopet.util.MyApplication;
+import cn.xd.desktopet.util.MyWindowManager;
 import cn.xd.desktopet.util.Utilities;
 
 /**
@@ -140,9 +142,9 @@ public class PetWindowSmallView extends LinearLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 Glide.with(context).load(Pet.getStillImageId()).into(imageView);
-                if (Utilities.getDiatance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 3) {
-                    //单击事件
-                    Toast.makeText(context, "单件事件", Toast.LENGTH_SHORT).show();
+                if (Utilities.getDiatance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 5) {
+                    MyWindowManager.createPetBigWindow(MyApplication.getContext());
+                    Toast.makeText(getContext(), "单件事件", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
