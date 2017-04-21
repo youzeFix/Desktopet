@@ -3,10 +3,6 @@ package cn.xd.desktopet.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Random;
-
-import cn.xd.desktopet.R;
-import cn.xd.desktopet.util.Const;
 import cn.xd.desktopet.util.MyApplication;
 
 /**
@@ -22,6 +18,30 @@ public class Pet {
      * 使用整形常量表示不同的主题
      */
     public static final int themeDefault = 0;
+    public static final int theme1=1;
+    public static final int theme2=2;
+
+
+    /**
+     * 使用整形常量表示要获取的图片类型
+     */
+    //静止时显示的图片
+    public static final int typeStill=0;
+    //点击时显示的图片
+    public static final int typeClick=1;
+    //移动时显示的图片
+    public static final int typeMove=2;
+    //空闲时显示的图片
+    public static final int typeFree=3;
+    /**
+     * 闲时时间间隔，以秒为单位
+     */
+    public static int freeTime=5;
+    /**
+     * 闲时动画持续时间,以秒为单位
+     */
+
+    public static int freeContinueTime=5;
     /**
      * 姓名
      */
@@ -43,89 +63,13 @@ public class Pet {
         SharedPreferences sp = MyApplication.getContext().getSharedPreferences("pet", 0);
         name = sp.getString("name", "UnKnow");
         sex = sp.getString("sex", "Boy");
-        theme = sp.getInt("theme", -1);
+        theme = sp.getInt("theme", 0);
         petPhrase = sp.getString("petPhrase", "No Content");
     }
 
-    /**
-     * 获取静态图片资源
-     */
-    public static int getStillImageId() {
-        int resId = -1;
-        switch (theme) {
-            case Const.THEME0:
-                resId = R.drawable.beaver;
-                break;
-            case Const.THEME1:
-                resId = R.drawable.beaver;
-                break;
-            case Const.THEME2:
-                resId = R.drawable.beaver;
-                break;
-            default:
-                resId = R.drawable.beaver;
-        }
-        return resId;
-    }
 
-    /**
-     * 获取动态Gif资源
-     */
 
-    public static int getMoveImageId() {
-        int randFaceId = getRandFaceId();
-        int resId = -1;
-        switch (theme){
-            case Const.THEME0:
-                switch (randFaceId){
-                    case Const.HAPPY:
-                       resId = R.drawable.dance;
-                        break;
-                    case Const.SAD:
-                        resId = R.drawable.dance;
-                        break;
-                }
-                break;
 
-            case Const.THEME1:
-                switch (randFaceId){
-                    case Const.HAPPY:
-                        resId = R.drawable.dance;
-                        break;
-                    case Const.SAD:
-                        resId = R.drawable.dance;
-                        break;
-                }
-                break;
-
-            case Const.THEME2:
-                switch (randFaceId){
-                    case Const.HAPPY:
-                        resId = R.drawable.dance;
-                        break;
-                    case Const.SAD:
-                        resId = R.drawable.dance;
-                        break;
-                }
-                break;
-
-            default:
-                resId = R.drawable.dance;
-                break;
-
-        }
-        return resId;
-    }
-
-    /**
-     * 返回随机表情
-     * @return
-     */
-    private static int getRandFaceId() {
-        Random random = new Random();
-        int rand = random.nextInt(Const.FACE_COUNT);
-        return rand;
-    }
 
     /**
      * 将宠物当前的设置信息保存到preference文件中

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -15,6 +14,8 @@ import android.widget.Toast;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.util.MyWindowManager;
+import cn.xd.desktopet.util.PetControl;
+import cn.xd.desktopet.view.PetWindowSmallView;
 
 /**
  * Created by Administrator on 2017/4/18 0018.
@@ -50,6 +51,9 @@ public class MainActivity extends Activity{
         //设置监听器
         setListener();
 
+        /**
+         * 检测安卓6.0以上动态申请悬浮窗权限
+         */
         if(Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)){
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
@@ -146,5 +150,9 @@ public class MainActivity extends Activity{
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        PetControl.doUnbindPetFreeService();
+        super.onDestroy();
+    }
 }

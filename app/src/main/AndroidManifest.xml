@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".service.PetFreeService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

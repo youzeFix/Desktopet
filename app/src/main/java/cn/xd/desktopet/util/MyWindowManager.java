@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import cn.xd.desktopet.view.PetWindowBigView;
 import cn.xd.desktopet.view.PetWindowSmallView;
@@ -42,8 +41,8 @@ public class MyWindowManager {
      */
     public static void createPetSmallWindow(Context context) {
         WindowManager windowManager = getWindowManager(context);
-        int screamWidth = windowManager.getDefaultDisplay().getWidth();
-        int screamHeight = windowManager.getDefaultDisplay().getHeight();
+        int screenWidth = windowManager.getDefaultDisplay().getWidth();
+        int screenHeight = windowManager.getDefaultDisplay().getHeight();
         if(mPetWindowSmallView == null){
             mPetWindowSmallView = new PetWindowSmallView(context);
             if(mSmallLayoutParams == null){
@@ -56,8 +55,8 @@ public class MyWindowManager {
                 mSmallLayoutParams.width = mPetWindowSmallView.mVieWidth;
                 mSmallLayoutParams.height = mPetWindowSmallView.mViewHeight;
 
-                mSmallLayoutParams.x = screamWidth;
-                mSmallLayoutParams.y = screamHeight / 2;
+                mSmallLayoutParams.x = screenWidth;
+                mSmallLayoutParams.y = screenHeight / 2;
             }
             mPetWindowSmallView.setParams(mSmallLayoutParams);
             mWindowManager.addView(mPetWindowSmallView, mSmallLayoutParams);
@@ -69,8 +68,8 @@ public class MyWindowManager {
      */
     public static void createPetBigWindow(Context context) {
         WindowManager windowManager = getWindowManager(context);
-        int screamX = windowManager.getDefaultDisplay().getWidth();
-        int screamY = windowManager.getDefaultDisplay().getHeight();
+        int screenX = windowManager.getDefaultDisplay().getWidth();
+        int screenY = windowManager.getDefaultDisplay().getHeight();
         if(mPetWindowBigView == null){
             mPetWindowBigView = new PetWindowBigView(context);
             if(mBigLayoutParams == null){
@@ -80,8 +79,8 @@ public class MyWindowManager {
                 mBigLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
                 mBigLayoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
                 mBigLayoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
-                mBigLayoutParams.x = screamX / 2;
-                mBigLayoutParams.y = screamY / 2;
+                mBigLayoutParams.x = screenX / 2;
+                mBigLayoutParams.y = screenY / 2;
             }
             mWindowManager.addView(mPetWindowBigView, mBigLayoutParams);
         }

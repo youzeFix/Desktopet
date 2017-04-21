@@ -1,7 +1,6 @@
 package cn.xd.desktopet.view;
 
 import android.content.Context;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,13 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
-import cn.xd.desktopet.util.Const;
 import cn.xd.desktopet.util.MyApplication;
 import cn.xd.desktopet.util.MyWindowManager;
+import cn.xd.desktopet.util.PetControl;
 import cn.xd.desktopet.util.Utilities;
 
 /**
@@ -64,9 +62,7 @@ public class PetWindowSmallView extends LinearLayout {
      * 记录当前手指在屏幕上的纵坐标值
      */
     private float yInScreen;
-    /**
-     * 用与展示图片的imageview
-     */
+
      /**
      * View的宽
      */
@@ -75,37 +71,31 @@ public class PetWindowSmallView extends LinearLayout {
      * View的高
      */
     public static int mViewHeight;
+    /**
+     * 用与展示图片的imageview
+     */
     private ImageView imageView;
     /**
      * 保存上下文环境对象
      */
     private Context context;
-    /**
-     * 发送Message给UI线程的消息队列
-     */
-    private Handler handler = new Handler();
 
     /**
-     * 静态图
+     * 宠物行为控制器
      */
-    Runnable mStillRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Glide.with(context).load(Pet.getStillImageId()).into(imageView);
-        }
-    };
+    private PetControl petControl;
 
     /**
-     * 动态图
+     *屏幕宽
      */
-    Runnable mMoveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Glide.with(context).load(Pet.getMoveImageId()).into(imageView);
-            handler.postDelayed(mStillRunnable, 5 * Const.SECOND);  //五秒后变成静态图
-            handler.postDelayed(this, 15 * Const.SECOND);   //15秒后再成动态图
-        }
-    };
+    private int screenWidth;
+    /**
+     * 屏幕高
+     */
+    private int screenHeight;
+
+
+
 
     public PetWindowSmallView(Context context) {
         super(context);
@@ -115,11 +105,17 @@ public class PetWindowSmallView extends LinearLayout {
         imageView = (ImageView) view.findViewById(R.id.pet_imageview);
         //获取系统状态栏的高度
         statusBarHeight = Utilities.getStatusBarHeight(context);
+        //获取屏幕宽高
+        screenWidth=Utilities.getScreenSize(context)[0];
+        screenHeight=Utilities.getScreenSize(context)[1];
+        //获取view宽高
         mViewHeight = imageView.getLayoutParams().height;
         mVieWidth = imageView.getLayoutParams().width;
-        //出现十秒之后开始动
-        handler.post(mStillRunnable);
-        handler.postDelayed(mMoveRunnable, 10 * Const.SECOND);
+
+        setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
+
+        petControl=new PetControl(this);
+
 
     }
 
@@ -127,13 +123,16 @@ public class PetWindowSmallView extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                //暂时关闭更换动画
+                petControl.stopPetFreeServiceTimerTask();
+                setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeClick));
                 xInView = event.getX();
                 yInView = event.getY();
                 xInScreen = event.getRawX();
                 yInScreen = event.getRawY() - statusBarHeight;
                 xDownInScreen = xInScreen;
                 yDownInScreen = yInScreen;
-                Glide.with(context).load(Pet.getMoveImageId()).into(imageView);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 xInScreen = event.getRawX();
@@ -141,10 +140,15 @@ public class PetWindowSmallView extends LinearLayout {
                 updateViewPosition();
                 break;
             case MotionEvent.ACTION_UP:
-                Glide.with(context).load(Pet.getStillImageId()).into(imageView);
-                if (Utilities.getDiatance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 5) {
+                setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
+                //重新开启更换动画
+                petControl.startPetFreeServiceTimerTask();
+                //贴边
+                toTheSide();
+                //检测是否触发单击事件
+                if (Utilities.getDistance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 5) {
                     MyWindowManager.createPetBigWindow(MyApplication.getContext());
-                    Toast.makeText(getContext(), "单件事件", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "单击事件", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -162,20 +166,20 @@ public class PetWindowSmallView extends LinearLayout {
         params.y = (int) (yInScreen - yInView);
         windowManager.updateViewLayout(this, params);
     }
+    /**
+     * 贴边
+     */
+    private void toTheSide(){
+        if(xInScreen<screenWidth/2)params.x=0;
+        else params.x=screenWidth-mVieWidth;
+        windowManager.updateViewLayout(this,params);
+    }
 
     /**
-     * 设置imageView要显示的图片，根据pet的属性从资源中获取相应的图片，使用Glide库显示gif
+     * 设置imageView要显示的图片，使用Glide库显示gif
+     * @param resId    要使用的资源id
      */
-    public void setImageRes() {
-        //当前要使用的资源id
-        Integer resId = null;
-        switch (Pet.theme) {
-            case Pet.themeDefault:
-                resId = R.drawable.dance;
-                break;
-            default:
-                break;
-        }
+    public void setImageRes(Integer resId) {
         Glide.with(context).load(resId).into(imageView);
     }
 
@@ -183,4 +187,9 @@ public class PetWindowSmallView extends LinearLayout {
     public void setParams(WindowManager.LayoutParams params) {
         this.params = params;
     }
+
+
+
+
+
 }

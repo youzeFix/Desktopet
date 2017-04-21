@@ -5,7 +5,7 @@ package cn.xd.desktopet.util;
  */
 
 import android.content.Context;
-import android.graphics.Point;
+import android.view.WindowManager;
 
 import java.lang.reflect.Field;
 
@@ -37,10 +37,24 @@ public class Utilities {
         return statusBarHeight;
     }
 
-    public static float getDiatance(float startX, float startY, float endX, float endY) {
+    public static float getDistance(float startX, float startY, float endX, float endY) {
         float result = 0;
         result = (float) Math.sqrt((endY - startY) * (endY - startY) + (endX - startX) * (endX - startX));
         return result;
+    }
+
+
+    /**
+     * 获取屏幕尺寸
+     * @param context
+     * @return  size[0]为宽，size[1]为高
+     */
+    public static int[] getScreenSize(Context context){
+        int[] size=new int[2];
+        WindowManager windowManager=(WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        size[0]=windowManager.getDefaultDisplay().getWidth();
+        size[1]=windowManager.getDefaultDisplay().getHeight();
+        return size;
     }
 
 }
