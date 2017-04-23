@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 
 import cn.xd.desktopet.R;
-import cn.xd.desktopet.util.MyWindowManager;
-import cn.xd.desktopet.util.PetControl;
-import cn.xd.desktopet.view.PetWindowSmallView;
+import cn.xd.desktopet.control.MyWindowManager;
+import cn.xd.desktopet.control.PetControl;
 
 /**
  * Created by Administrator on 2017/4/18 0018.
@@ -38,6 +37,11 @@ public class MainActivity extends Activity{
     private Button bluetoothBtn;
     private Button petSetBtn;
     private Button aboutBtn;
+
+    /**
+     * 测试
+     */
+    private Button testBtn;
 
 
 
@@ -75,6 +79,8 @@ public class MainActivity extends Activity{
         bluetoothBtn=(Button)findViewById(R.id.bluetooth_btn);
         petSetBtn=(Button)findViewById(R.id.pet_set_btn);
         aboutBtn=(Button)findViewById(R.id.about_btn);
+        //测试
+        testBtn=(Button)findViewById(R.id.test_btn);
 
     }
 
@@ -89,10 +95,15 @@ public class MainActivity extends Activity{
         displayPetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+                if(isChecked){
                     MyWindowManager.createPetSmallWindow(getApplicationContext());
-                else
+                    MyWindowManager.isPetShow=true;
+                }
+                else{
                     MyWindowManager.removePetSmallWindow(getApplicationContext());
+                    MyWindowManager.isPetShow=false;
+                }
+
             }
         });
         /**
@@ -145,6 +156,17 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "点击关于按钮", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /**
+         * 测试
+         */
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "测试", Toast.LENGTH_SHORT).show();
+                PetControl.displayPetMessage("测试信息窗口");
             }
         });
 

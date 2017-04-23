@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.util.MyApplication;
-import cn.xd.desktopet.util.MyWindowManager;
-import cn.xd.desktopet.util.PetControl;
+import cn.xd.desktopet.control.MyWindowManager;
+import cn.xd.desktopet.control.PetControl;
 import cn.xd.desktopet.util.Utilities;
 
 /**
@@ -23,6 +22,11 @@ import cn.xd.desktopet.util.Utilities;
  */
 
 public class PetWindowSmallView extends LinearLayout {
+
+    public static final int LEFT=0;
+    public static final int RIGHT=1;
+
+    public static int side=1;
 
     /**
      * 用于更新小悬浮窗的位置
@@ -37,7 +41,7 @@ public class PetWindowSmallView extends LinearLayout {
     /**
      * 小悬浮窗的参数
      */
-    private WindowManager.LayoutParams params;
+    public static WindowManager.LayoutParams params;
     /**
      * 记录手指按下时在小悬浮窗上的横坐标值
      */
@@ -102,6 +106,7 @@ public class PetWindowSmallView extends LinearLayout {
         this.context = context;
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         View view = LayoutInflater.from(context).inflate(R.layout.pet_window_small, this);
+        View baseView=view.findViewById(R.id.pet_window_small_layout);
         imageView = (ImageView) view.findViewById(R.id.pet_imageview);
         //获取系统状态栏的高度
         statusBarHeight = Utilities.getStatusBarHeight(context);
@@ -109,8 +114,8 @@ public class PetWindowSmallView extends LinearLayout {
         screenWidth=Utilities.getScreenSize(context)[0];
         screenHeight=Utilities.getScreenSize(context)[1];
         //获取view宽高
-        mViewHeight = imageView.getLayoutParams().height;
-        mVieWidth = imageView.getLayoutParams().width;
+        mViewHeight = baseView.getLayoutParams().width;
+        mVieWidth = baseView.getLayoutParams().height;
 
         setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
 
@@ -126,6 +131,7 @@ public class PetWindowSmallView extends LinearLayout {
                 //暂时关闭更换动画
                 petControl.stopPetFreeServiceTimerTask();
                 setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeClick));
+                petControl.petClickDown();
                 xInView = event.getX();
                 yInView = event.getY();
                 xInScreen = event.getRawX();
@@ -137,7 +143,10 @@ public class PetWindowSmallView extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
                 xInScreen = event.getRawX();
                 yInScreen = event.getRawY() - statusBarHeight;
-                updateViewPosition();
+                if(!MyWindowManager.petMenuShow){
+                    updateViewPosition();
+                }
+                petControl.petMove();
                 break;
             case MotionEvent.ACTION_UP:
                 setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
@@ -145,10 +154,13 @@ public class PetWindowSmallView extends LinearLayout {
                 petControl.startPetFreeServiceTimerTask();
                 //贴边
                 toTheSide();
+                petControl.petClickUp();
                 //检测是否触发单击事件
                 if (Utilities.getDistance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 5) {
-                    MyWindowManager.createPetBigWindow(MyApplication.getContext());
-                    Toast.makeText(getContext(), "单击事件", Toast.LENGTH_SHORT).show();
+
+                    if(MyWindowManager.petMenuShow==false)MyWindowManager.createPetMenu(MyApplication.getContext());
+                    else if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu();
+
                 }
                 break;
             default:
@@ -170,8 +182,14 @@ public class PetWindowSmallView extends LinearLayout {
      * 贴边
      */
     private void toTheSide(){
-        if(xInScreen<screenWidth/2)params.x=0;
-        else params.x=screenWidth-mVieWidth;
+        if(xInScreen<screenWidth/2){
+            params.x=0;
+            side=PetWindowSmallView.LEFT;
+        }
+        else {
+            params.x=screenWidth;
+            side=PetWindowSmallView.RIGHT;
+        }
         windowManager.updateViewLayout(this,params);
     }
 
@@ -187,6 +205,8 @@ public class PetWindowSmallView extends LinearLayout {
     public void setParams(WindowManager.LayoutParams params) {
         this.params = params;
     }
+
+
 
 
 

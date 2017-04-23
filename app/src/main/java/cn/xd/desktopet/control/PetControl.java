@@ -1,4 +1,4 @@
-package cn.xd.desktopet.util;
+package cn.xd.desktopet.control;
 
 /**
  * Created by Administrator on 2017/4/20 0020.
@@ -10,10 +10,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.service.PetFreeService;
+import cn.xd.desktopet.util.MyApplication;
 import cn.xd.desktopet.view.PetWindowSmallView;
 
 /**
@@ -33,6 +38,8 @@ public class PetControl {
     private static PetFreeService petFreeService;
 
     private static PetWindowSmallView petWindowSmallView;
+
+    private static Timer timer;
 
     public PetControl(PetWindowSmallView petWindowSmallView){
 
@@ -108,9 +115,7 @@ public class PetControl {
      * @param resId
      */
     public static void setPetWindowSmallViewImage(int resId){
-        Log.d("PetControl","设置smallview图片。资源id为："+resId);
         petWindowSmallView.setImageRes(resId);
-
     }
 
 
@@ -127,4 +132,56 @@ public class PetControl {
     public static void startPetFreeServiceTimerTask(){
         petFreeService.startTimerTask();
     }
+
+    /**
+     * 显示信息窗口
+     * @param msg 要显示的信息
+     */
+    public static void displayPetMessage(String msg){
+        if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu();
+
+        if(MyWindowManager.createPetMsgWindow(MyApplication.getContext())==false)return;
+        MyWindowManager.getPetMessageWindow().setMessage(msg);
+        if(Pet.msgWindowAutoClose==true) {
+            if (timer == null) timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    MyWindowManager.removePetMsgWindow(MyApplication.getContext());
+                }
+            }, Pet.msgWindowContinueTime*1000);
+        }
+    }
+
+    public static void petClickDown(){
+        if(MyWindowManager.msgWindowShow==true){
+            MyWindowManager.hangUpMsgWindow();
+        }
+
+    }
+
+    public static void petClickUp(){
+        if(MyWindowManager.msgWindowShow==true){
+            MyWindowManager.removePetMsgWindow(MyApplication.getContext());
+            MyWindowManager.createPetMsgWindow(MyApplication.getContext());
+        }
+    }
+    public static void petMove(){
+        if(MyWindowManager.msgWindowShow==true){
+            MyWindowManager.updateMsgWindowPosition();
+        }
+    }
+    public static void alarmBtnClick(){
+        Toast.makeText(MyApplication.getContext(), "click alarm", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void bluetoothBtnClick(){
+        Toast.makeText(MyApplication.getContext(), "click bluetooth", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void settingBtnClick(){
+        Toast.makeText(MyApplication.getContext(), "click setting", Toast.LENGTH_SHORT).show();
+    }
+
+
 }

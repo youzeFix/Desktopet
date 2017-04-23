@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.xd.desktopet.util.MyWindowManager;
+import cn.xd.desktopet.control.MyWindowManager;
 
 /**
  * Created by Administrator on 2017/4/18 0018.
@@ -78,7 +78,6 @@ public class PetWindowService extends Service {
                     @Override
                     public void run() {
                         MyWindowManager.removePetSmallWindow(getApplicationContext());
-                        MyWindowManager.removePetBigWindow(getApplicationContext());
                     }
                 });
             }

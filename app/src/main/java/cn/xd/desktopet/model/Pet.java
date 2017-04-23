@@ -33,6 +33,13 @@ public class Pet {
     public static final int typeMove=2;
     //空闲时显示的图片
     public static final int typeFree=3;
+
+    /**
+     * 信息窗口自动关闭
+     */
+    public static boolean msgWindowAutoClose=true;
+
+
     /**
      * 闲时时间间隔，以秒为单位
      */
@@ -40,8 +47,11 @@ public class Pet {
     /**
      * 闲时动画持续时间,以秒为单位
      */
-
     public static int freeContinueTime=5;
+    /**
+     * 信息窗口持续时间，以秒为单位
+     */
+    public static int msgWindowContinueTime=5;
     /**
      * 姓名
      */

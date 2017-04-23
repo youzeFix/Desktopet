@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.xd.desktopet.R;
-import cn.xd.desktopet.util.MyWindowManager;
+import cn.xd.desktopet.control.MyWindowManager;
 import cn.xd.desktopet.util.Utilities;
 
 /**
@@ -44,6 +45,28 @@ public class PetMessageWindow extends LinearLayout {
     private TextView msgTestView;
 
     /**
+     * view的宽
+     */
+    public static int viewWidth;
+    /**
+     * view的高
+     */
+    public static int viewHeight;
+
+    /**
+     * messageWindow布局的最外层layout
+     */
+    private RelativeLayout msgWindowBg;
+
+    /**
+     * 信息缓存，信息显示期间重建窗口用
+     */
+    public static String textBuffer;
+    /**
+     * 是否有讯息缓存
+     */
+    public static boolean textBuffered;
+    /**
      * 保存上下文环境对象
      */
     private Context context;
@@ -52,9 +75,13 @@ public class PetMessageWindow extends LinearLayout {
         super(context);
         this.context=context;
         View view= LayoutInflater.from(context).inflate(R.layout.pet_message_window,this);
+        View baseLayout=view.findViewById(R.id.pet_msg_window_layout);
+        msgWindowBg=(RelativeLayout)view.findViewById(R.id.pet_msg_window_bg);
         msgTestView=(TextView)view.findViewById(R.id.msg_textview);
         //获取系统状态栏高度
         statusBarHeight= Utilities.getStatusBarHeight(context);
+        viewWidth=baseLayout.getLayoutParams().width;
+        viewHeight=baseLayout.getLayoutParams().height;
     }
 
     @Override
@@ -88,5 +115,15 @@ public class PetMessageWindow extends LinearLayout {
      */
     public void setMessage(String msg){
         msgTestView.setText(msg);
+        textBuffer=msg;
+        textBuffered=true;
+    }
+
+    /**
+     * 设置背景
+     * @param resId 背景图片资源id
+     */
+    public void setBackground(int resId){
+        msgWindowBg.setBackgroundResource(resId);
     }
 }

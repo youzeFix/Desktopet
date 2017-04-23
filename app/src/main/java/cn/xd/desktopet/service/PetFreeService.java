@@ -11,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.xd.desktopet.model.Pet;
-import cn.xd.desktopet.util.PetControl;
+import cn.xd.desktopet.control.PetControl;
 
 /**
  * Created by Administrator on 2017/4/20 0020.
