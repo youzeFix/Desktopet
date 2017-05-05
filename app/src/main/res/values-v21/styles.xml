@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="CombineTheme" parent="AppTheme.Base">
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/accent_material_light</item>
+    </style>
+</resources>

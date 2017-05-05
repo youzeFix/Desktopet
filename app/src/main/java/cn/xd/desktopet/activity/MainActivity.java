@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-
+import cn.xd.desktopet.BluetoothCombine.CombineActivity;
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.control.MyWindowManager;
 import cn.xd.desktopet.control.PetControl;
@@ -136,6 +136,8 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "点击蓝牙按钮", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this,CombineActivity.class);
+                startActivity(intent);
             }
         });
 
