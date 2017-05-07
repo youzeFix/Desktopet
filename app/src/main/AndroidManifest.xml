@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.xd.desktopet">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <application
@@ -24,6 +26,12 @@
         <activity android:name=".BluetoothCombine.CombineActivity"
             android:label="combine"
             android:theme="@style/CombineTheme"/>
+
+        <activity
+            android:name=".BluetoothCombine.DeviceListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/select_device"
+            android:theme="@android:style/Theme.Holo.Dialog"/>
 
     </application>
 

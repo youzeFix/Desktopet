@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--By  LeeHam-->
+<!-- Questions , call me -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -6,17 +10,64 @@
     android:layout_height="match_parent"
     tools:context=".BluetoothCombine.CombineActivity" >
 
-    <TextView
-        android:layout_below="@+id/combine_activity_toolbar"
-        android:text="hello leeham "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/combine_activity_toolbar"
         android:layout_height="?actionBarSize"
         android:layout_width="match_parent"
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
+
+        <TextView
+            style="@style/Widget.SampleMessage"
+            android:id="@+id/text_1"
+            android:layout_below="@+id/combine_activity_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingLeft="@dimen/horizontal_page_margin"
+            android:paddingRight="@dimen/horizontal_page_margin"
+            android:paddingTop="@dimen/vertical_page_margin"
+            android:paddingBottom="@dimen/vertical_page_margin"
+
+            android:text="@string/intro_message" />
+
+    <View
+        android:id="@+id/view_0"
+        android:layout_below="@+id/text_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <ListView
+        android:id="@+id/in"
+        android:layout_below="@id/view_0"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
+
+
+    <LinearLayout
+        android:layout_below="@+id/in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/edit_text_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+             />
+
+        <Button
+            android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send" />
+    </LinearLayout>
+
 
 </RelativeLayout>
