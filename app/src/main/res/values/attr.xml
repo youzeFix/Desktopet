@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SemiringLayout">
+        <attr name="side" format="string"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="centerX" format="float"/>
+        <attr name="centerY" format="float"/>
+    </declare-styleable>
+</resources>

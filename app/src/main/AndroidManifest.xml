@@ -21,7 +21,7 @@
 
         <service android:name=".service.PetFreeService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity android:name=".BluetoothCombine.CombineActivity"
             android:label="combine"

@@ -6,19 +6,22 @@ package cn.xd.desktopet.control;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.util.MyApplication;
 import cn.xd.desktopet.util.Utilities;
-import cn.xd.desktopet.view.PetMenu;
 import cn.xd.desktopet.view.PetMessageWindow;
 import cn.xd.desktopet.view.PetWindowSmallView;
+import cn.xd.desktopet.view.SemiringLayout;
 
 /**
  * 管理宠物悬浮窗
@@ -28,11 +31,11 @@ public class MyWindowManager {
     private static WindowManager mWindowManager;
     private static PetWindowSmallView mPetWindowSmallView;
     private static PetMessageWindow petMessageWindow;
-    private static PetMenu petMenu;
+    private static SemiringLayout petMenu;
 
     public static boolean msgWindowShow=false;
     public static boolean petMenuShow=false;
-    public static boolean isPetShow=true;
+    private static boolean isPetShow=true;
     /**
      * 小窗口布局参数
      */
@@ -44,9 +47,13 @@ public class MyWindowManager {
      */
     private static WindowManager.LayoutParams petMsgWindowParams;
 
+    private static WindowManager.LayoutParams petMenuParams;
+
 
     private static int screenWidth;
     private static int screenHeight;
+
+    private static Map<String,Button> petMenuBtnMap;
 
     static {
         int[] a= Utilities.getScreenSize(MyApplication.getContext());
@@ -81,24 +88,57 @@ public class MyWindowManager {
             mPetWindowSmallView.setParams(mSmallLayoutParams);
             mWindowManager.addView(mPetWindowSmallView, mSmallLayoutParams);
         }
+        isPetShow=true;
     }
 
-    public static void createPetMenu(Context context){
+    public static void createPetMenu(final Context context){
         if(msgWindowShow==true)removePetMsgWindow(context);
-        if(petMenu==null)petMenu=new PetMenu(context);
-        Map<Button,WindowManager.LayoutParams> map=petMenu.getButton();
-        Set<Button> set=map.keySet();
-        for(Button button:set){
-            mWindowManager.addView(button,map.get(button));
+        if(petMenu==null){
+            petMenu= (SemiringLayout)LayoutInflater.from(context).inflate(R.layout.petmenu_layout,null);
+            if(petMenuParams==null){
+                petMenuParams=new WindowManager.LayoutParams();
+                petMenuParams.type=WindowManager.LayoutParams.TYPE_PHONE;
+                petMenuParams.format=PixelFormat.RGBA_8888;
+                petMenuParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            }
+            Log.d("MyWindowManager","当前宠物位置为："+PetWindowSmallView.params.x+"    "+PetWindowSmallView.params.y);
+            Log.d("MyWindowManager","宠物大小为："+PetWindowSmallView.mVieWidth+"     "+PetWindowSmallView.mViewHeight);
+            petMenu.setCenterY(PetWindowSmallView.params.y+PetWindowSmallView.mViewHeight/2);
+
+            if(PetWindowSmallView.side==PetWindowSmallView.RIGHT){
+                petMenu.setCenterX(PetWindowSmallView.params.x-PetWindowSmallView.mVieWidth/2);
+                petMenu.setSide(SemiringLayout.SIDE_LEFT);
+            }
+            else {
+                petMenu.setCenterX(PetWindowSmallView.params.x+PetWindowSmallView.mVieWidth/2);
+                petMenu.setSide(SemiringLayout.SIDE_RIGHT);
+            }
+            if(petMenuBtnMap==null)petMenuBtnMap=new HashMap<>();
+            petMenuBtnMap.put("alarmButton",(Button)petMenu.findViewById(R.id.petmenu_alarm_btn));
+            petMenuBtnMap.put("settingButton",(Button)petMenu.findViewById(R.id.petmenu_setting_btn));
+            petMenuBtnMap.put("bluetoothButton",(Button)petMenu.findViewById(R.id.bluetooth_btn));
+            petMenuBtnMap.put("closeButton",(Button)petMenu.findViewById(R.id.petmenu_close_btn));
+
+
+            setPetMenuCloseBtnListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removePetMenu(context);
+                }
+            });
+
+            mWindowManager.addView(petMenu,petMenuParams);
         }
+
         petMenuShow=true;
     }
 
-    public static void removePetMenu(){
-        Map<Button,WindowManager.LayoutParams> map=petMenu.getButton();
-        Set<Button> set=map.keySet();
-        for(Button button:set){
-            mWindowManager.removeView(button);
+    public static void removePetMenu(Context context){
+        if(petMenu!=null){
+            WindowManager windowManager=getWindowManager(context);
+            windowManager.removeView(petMenu);
+            petMenu=null;
         }
         petMenuShow=false;
     }
@@ -120,12 +160,14 @@ public class MyWindowManager {
      */
     public static void removePetSmallWindow(Context context) {
         if(msgWindowShow==true)removePetMsgWindow(context);
-        if(petMenuShow==true)removePetMenu();
+        if(petMenuShow==true)removePetMenu(context);
         if(mPetWindowSmallView != null){
             WindowManager windowManager = getWindowManager(context);
             windowManager.removeView(mPetWindowSmallView);
             mPetWindowSmallView = null;
         }
+        isPetShow=false;
+        PetControl.doUnbindPetFreeService();
     }
 
 
@@ -218,6 +260,33 @@ public class MyWindowManager {
         mWindowManager.updateViewLayout(petMessageWindow,petMsgWindowParams);
     }
 
+    public static void setPetMenuAlarmBtnListener(View.OnClickListener listener){
+        if(petMenuBtnMap!=null){
+            Button petMenuAlarmBtn=(Button)petMenuBtnMap.get("alarmButton");
+            petMenuAlarmBtn.setOnClickListener(listener);
+        }
+    }
+
+    public static void setPetMenuSettingBtnListener(View.OnClickListener listener){
+        if(petMenuBtnMap!=null){
+            Button petMenuSettingBtn=(Button)petMenuBtnMap.get("settingButton");
+            petMenuSettingBtn.setOnClickListener(listener);
+        }
+    }
+
+    public static void setPetMenuBluetoothBtnListener(View.OnClickListener listener){
+        if(petMenuBtnMap!=null){
+            Button petMenuBluetoothBtn=(Button)petMenuBtnMap.get("bluetoothButton");
+            petMenuBluetoothBtn.setOnClickListener(listener);
+        }
+    }
+
+    public static void setPetMenuCloseBtnListener(View.OnClickListener listener){
+        if(petMenuBtnMap!=null){
+            Button petMenuCloseBtn=(Button)petMenuBtnMap.get("closeButton");
+            petMenuCloseBtn.setOnClickListener(listener);
+        }
+    }
 
 
 }

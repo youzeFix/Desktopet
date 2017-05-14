@@ -138,7 +138,7 @@ public class PetControl {
      * @param msg 要显示的信息
      */
     public static void displayPetMessage(String msg){
-        if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu();
+        if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu(MyApplication.getContext());
 
         if(MyWindowManager.createPetMsgWindow(MyApplication.getContext())==false)return;
         MyWindowManager.getPetMessageWindow().setMessage(msg);

@@ -159,7 +159,7 @@ public class PetWindowSmallView extends LinearLayout {
                 if (Utilities.getDistance(xInScreen, yInScreen, xDownInScreen, yDownInScreen) < 5) {
 
                     if(MyWindowManager.petMenuShow==false)MyWindowManager.createPetMenu(MyApplication.getContext());
-                    else if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu();
+                    else if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu(MyApplication.getContext());
 
                 }
                 break;
