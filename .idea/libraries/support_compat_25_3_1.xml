@@ -4,13 +4,12 @@
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/334c765fb3d9c389cd6fda033a2fa9ef36ccbe3e/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/334c765fb3d9c389cd6fda033a2fa9ef36ccbe3e/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://G:/AndroidSDK/extras/android/m2repository/com/android/support/support-compat/25.3.1/support-compat-25.3.1-sources.jar!/" />
-      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/support-compat/25.3.1/support-compat-25.3.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

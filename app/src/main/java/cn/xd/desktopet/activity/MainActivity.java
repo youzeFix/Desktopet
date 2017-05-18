@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity{
         clockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "点击闹钟按钮", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this,AlarmListActivity.class);
+                startActivity(intent);
             }
         });
 

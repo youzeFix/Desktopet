@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+
+    <TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker" />
+
+    <Spinner
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/type_spinner"
+        android:entries="@array/alarm_type"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sound_item">
+        <TextView
+            android:id="@+id/sound_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="铃声"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="24dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="20dp"
+            android:src="@drawable/chevron_right_icon"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

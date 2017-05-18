@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.AlarmListActivity">
+    <item
+        android:id="@+id/action_add_alarm"
+        android:title="添加闹钟"
+        android:icon="@drawable/add_icon"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="100"/>
+
+</menu>

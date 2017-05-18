@@ -12,16 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".util.MyApplication">
+
+        <!--*************************activity**************************************-->
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <service android:name=".service.PetFreeService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity android:name=".BluetoothCombine.CombineActivity"
             android:label="combine"
@@ -32,6 +30,31 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog"/>
+
+        <activity android:name=".activity.AlarmListActivity"/>
+
+        <activity android:name=".activity.AddAlarmActivity"/>
+
+        <!--*************************service**************************************-->
+        <service android:name=".service.PetFreeService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service android:name=".service.SoundService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <!--*************************broadcastreceiver**************************************-->
+        <receiver android:name=".receiver.AlarmReceiver"/>
+        <receiver android:name=".receiver.SetAlarmReceiver">
+            <intent-filter>
+                <action android:name="cn.xd.desktopet.openalarm"/>
+                <action android:name="cn.xd.desktopet.closealarm"/>
+            </intent-filter>
+        </receiver>
+
+
+
 
     </application>
 

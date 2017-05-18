@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alarm_type">
+        <item>一次</item>
+        <item>每天</item>
+    </string-array>
+</resources>
