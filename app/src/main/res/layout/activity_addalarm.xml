@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="铃声"
+            android:text="默认铃声"
             android:textSize="18sp"
             android:textColor="#000000"
             android:padding="24dp"/>

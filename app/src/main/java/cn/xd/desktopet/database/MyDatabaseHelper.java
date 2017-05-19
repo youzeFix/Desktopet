@@ -14,7 +14,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             +"hour integer,"
             +"minute integer,"
             +"type integer,"
-            +"status integer)";
+            +"status integer,"
+            + "soundName varchar(100),"
+            + "soundPath varchar(1000))";
 
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

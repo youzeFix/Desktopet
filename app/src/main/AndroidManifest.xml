@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,6 +36,8 @@
         <activity android:name=".activity.AlarmListActivity"/>
 
         <activity android:name=".activity.AddAlarmActivity"/>
+
+        <activity android:name=".activity.SoundBrowseActivity"/>
 
         <!--*************************service**************************************-->
         <service android:name=".service.PetFreeService"

@@ -77,13 +77,17 @@ public class AlarmListActivity extends AppCompatActivity {
             int minute;
             int type;
             int status;
+            String soundName;
+            String soundPath;
             do{
                 id=cursor.getInt(0);
                 hour=cursor.getInt(1);
                 minute=cursor.getInt(2);
                 type=cursor.getInt(3);
                 status=cursor.getInt(4);
-                myAlarmManager.addAlarm(new Alarm(id,hour,minute,type,status));
+                soundName=cursor.getString(5);
+                soundPath=cursor.getString(6);
+                myAlarmManager.addAlarm(new Alarm(id,hour,minute,type,status,soundName,soundPath));
             }while (cursor.moveToNext());
         }
         cursor.close();
@@ -153,7 +157,9 @@ public class AlarmListActivity extends AppCompatActivity {
                         int minute=cursor.getInt(2);
                         int type=cursor.getInt(3);
                         int status=cursor.getInt(4);
-                        myAlarmManager.addAlarm(new Alarm(id,hour,minute,type,status));
+                        String soundName=cursor.getString(5);
+                        String soundPath=cursor.getString(6);
+                        myAlarmManager.addAlarm(new Alarm(id,hour,minute,type,status,soundName,soundPath));
                         myAlarmManager.setNextAlarm();
                     }
                     cursor.close();

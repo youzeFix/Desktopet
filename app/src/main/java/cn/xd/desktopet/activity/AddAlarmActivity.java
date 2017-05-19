@@ -18,12 +18,14 @@ import android.widget.TimePicker;
 import cn.xd.desktopet.R;
 import cn.xd.desktopet.database.MyDatabaseHelper;
 import cn.xd.desktopet.model.Alarm;
+import cn.xd.desktopet.model.Sound;
 
 /**
  * Created by Administrator on 2017/5/18 0018.
  */
 
 public class AddAlarmActivity extends AppCompatActivity {
+
     private String title="AddAlarm";
 
 
@@ -36,6 +38,9 @@ public class AddAlarmActivity extends AppCompatActivity {
     private RelativeLayout soundItem;
 
     private TextView soundNameTv;
+
+    private String soundName;
+    private String soundPath;
 
 
 
@@ -52,6 +57,8 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         setListener();
 
+        initStatus();
+
     }
 
     private void findViews(){
@@ -60,6 +67,10 @@ public class AddAlarmActivity extends AppCompatActivity {
         typeSpinner=(Spinner)findViewById(R.id.type_spinner);
         soundItem=(RelativeLayout)findViewById(R.id.sound_item);
         soundNameTv=(TextView)findViewById(R.id.sound_name_tv);
+    }
+
+    private void initStatus(){
+        soundName="默认铃声";
     }
 
     @Override
@@ -81,6 +92,9 @@ public class AddAlarmActivity extends AppCompatActivity {
                 if(typeStr.equals("一次"))contentValues.put("type", Alarm.ONCE);
                 else if(typeStr.equals("每天"))contentValues.put("type",Alarm.EVERYDAY);
                 contentValues.put("status",Alarm.RUN);
+                contentValues.put("soundName",soundName);
+                if(soundName.equals("默认铃声"))contentValues.put("soundPath", Sound.defaultSoundPath);
+                else contentValues.put("soundPath",soundPath);
                 database.insert("Alarm",null,contentValues);
                 Log.d("AddAlarmActivity","点击confirmAction");
                 setResult(RESULT_OK);
@@ -97,7 +111,9 @@ public class AddAlarmActivity extends AppCompatActivity {
         soundItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(AddAlarmActivity.this,SoundBrowseActivity.class);
+                intent.putExtra("currSoundName",soundNameTv.getText());
+                startActivityForResult(intent,1);
             }
         });
     }
@@ -107,7 +123,9 @@ public class AddAlarmActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:
                 if(resultCode==RESULT_OK){
-
+                    soundName=data.getStringExtra("soundName");
+                    soundPath=data.getStringExtra("soundPath");
+                    soundNameTv.setText(soundName);
                 }
                 break;
             default:

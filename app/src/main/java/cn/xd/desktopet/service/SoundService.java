@@ -24,9 +24,11 @@ public class SoundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        String soundPath=intent.getStringExtra("soundPath");
+
         mediaPlayer=new MediaPlayer();
         try {
-            mediaPlayer.setDataSource("sdcard/BackInTime.mp3");
+            mediaPlayer.setDataSource(soundPath);
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

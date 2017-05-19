@@ -196,12 +196,18 @@ public class MyAlarmManager {
         return currentRunningAlarm;
     }
 
-    public void triggerAlarm(){
+    public void triggerAlarm(Context receiverContext){
         Log.d("MyAlarmManager","触发当前闹钟："+currentRunningAlarm.getStringTime());
 
-        Intent intent=new Intent(context, SoundService.class);
 
-        context.startService(intent);
+        Intent intent=new Intent(context, SoundService.class);
+        intent.putExtra("soundPath",currentRunningAlarm.getSoundPath());
+
+        /**
+         * 须用广播接收器的context启动Service，否则service无法从intent中提取数据
+         */
+        receiverContext.startService(intent);
+
         AlertDialog.Builder builder=new AlertDialog.Builder(context);
         builder.setTitle("闹钟");
         builder.setMessage(currentRunningAlarm.getStringTime());

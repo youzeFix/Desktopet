@@ -7,6 +7,7 @@ import android.util.Log;
  */
 
 public class Alarm {
+
     public static final int ONCE=0;
     public static final int EVERYDAY=1;
 
@@ -20,14 +21,35 @@ public class Alarm {
     private int status;
     private String stringTime;
 
+    private String soundName;
+    private String soundPath;
 
-    public Alarm(int id,int hour,int minute,int type,int status){
+
+    public Alarm(int id,int hour,int minute,int type,int status,String soundName,String soundPath){
         this.id=id;
         this.hour=hour;
         this.minute=minute;
         this.type=type;
         this.status=status;
+        this.soundName=soundName;
+        this.soundPath=soundPath;
         stringTime=getStringNumber(hour)+":"+getStringNumber(minute);
+    }
+
+    public String getSoundName() {
+        return soundName;
+    }
+
+    public void setSoundName(String soundName) {
+        this.soundName = soundName;
+    }
+
+    public String getSoundPath() {
+        return soundPath;
+    }
+
+    public void setSoundPath(String soundPath) {
+        this.soundPath = soundPath;
     }
 
     public int getStatus() {
