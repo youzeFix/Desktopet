@@ -45,7 +45,7 @@ public class MyWindowManager {
     /**
      * 信息窗口布局参数
      */
-    public static WindowManager.LayoutParams petMsgWindowParams;
+    private static WindowManager.LayoutParams petMsgWindowParams;
 
     private static WindowManager.LayoutParams petMenuParams;
 
@@ -213,20 +213,21 @@ public class MyWindowManager {
                 petMsgWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                 petMsgWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
-            }
+                petMsgWindowParams.width = PetMessageWindow.viewWidth;
+                petMsgWindowParams.height = PetMessageWindow.viewHeight;
 
-            Utilities.measure(petMessageWindow);
-            Log.d("MyWindowManager","测量高度为："+petMessageWindow.getMeasuredHeight()+"测量宽度为："
-                    +petMessageWindow.getMeasuredWidth());
+            }
             if(PetWindowSmallView.side==PetWindowSmallView.RIGHT){
-                petMessageWindow.setBackground(R.drawable.msg_window_right);
+                petMsgWindowParams.x=mPetWindowSmallView.params.x-PetMessageWindow.viewWidth-
+                        PetWindowSmallView.mVieWidth;
+                petMessageWindow.setBackground(R.drawable.msg_window_bg_right);
             }else{
                 petMsgWindowParams.x=mPetWindowSmallView.params.x+PetWindowSmallView.mVieWidth;
-                petMessageWindow.setBackground(R.drawable.msg_window_left);
+                petMessageWindow.setBackground(R.drawable.msg_window_bg_left);
             }
             petMsgWindowParams.y = mPetWindowSmallView.params.y;
-
             petMessageWindow.setLayoutParams(petMsgWindowParams);
+            if(PetMessageWindow.textBuffered==true)petMessageWindow.setMessage(PetMessageWindow.textBuffer);
             mWindowManager.addView(petMessageWindow, petMsgWindowParams);
             msgWindowShow=true;
         }
@@ -250,11 +251,10 @@ public class MyWindowManager {
     }
 
     public static void hangUpMsgWindow(){
-        petMsgWindowParams.x=screenWidth/2-petMsgWindowParams.width/2;
+        petMsgWindowParams.x=screenWidth/2-PetMessageWindow.viewWidth/2;
         petMsgWindowParams.y=mSmallLayoutParams.y;
         mWindowManager.updateViewLayout(petMessageWindow,petMsgWindowParams);
     }
-
     public static void updateMsgWindowPosition(){
         petMsgWindowParams.y=mSmallLayoutParams.y;
         mWindowManager.updateViewLayout(petMessageWindow,petMsgWindowParams);

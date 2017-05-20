@@ -19,7 +19,6 @@ import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.service.PetFreeService;
 import cn.xd.desktopet.util.MyApplication;
-import cn.xd.desktopet.view.PetMessageWindow;
 import cn.xd.desktopet.view.PetWindowSmallView;
 
 /**
@@ -143,7 +142,6 @@ public class PetControl {
 
         if(MyWindowManager.createPetMsgWindow(MyApplication.getContext())==false)return;
         MyWindowManager.getPetMessageWindow().setMessage(msg);
-
         if(Pet.msgWindowAutoClose==true) {
             if (timer == null) timer = new Timer();
             timer.schedule(new TimerTask() {

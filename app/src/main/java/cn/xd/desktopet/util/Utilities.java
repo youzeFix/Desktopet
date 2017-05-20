@@ -5,8 +5,6 @@ package cn.xd.desktopet.util;
  */
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.lang.reflect.Field;
@@ -57,32 +55,6 @@ public class Utilities {
         size[0]=windowManager.getDefaultDisplay().getWidth();
         size[1]=windowManager.getDefaultDisplay().getHeight();
         return size;
-    }
-    public static void measure(View view) {
-        int sizeWidth, sizeHeight, modeWidth, modeHeight;
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if (layoutParams == null) {
-            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-        if (layoutParams.width == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            sizeWidth = 0;
-            modeWidth = View.MeasureSpec.UNSPECIFIED;
-        } else {
-            sizeWidth = layoutParams.width;
-            modeWidth = View.MeasureSpec.EXACTLY;
-        }
-        if (layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            sizeHeight = 0;
-            modeHeight = View.MeasureSpec.UNSPECIFIED;
-        } else {
-            sizeHeight = layoutParams.height;
-            modeHeight = View.MeasureSpec.EXACTLY;
-        }
-//        view.measure(View.MeasureSpec.makeMeasureSpec(sizeWidth, modeWidth),
-//                View.MeasureSpec.makeMeasureSpec(sizeHeight, modeHeight)
-//        );
-        view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));
     }
 
 }
