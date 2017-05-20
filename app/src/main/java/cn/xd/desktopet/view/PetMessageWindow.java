@@ -1,9 +1,12 @@
 package cn.xd.desktopet.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +19,7 @@ import cn.xd.desktopet.util.Utilities;
  * Created by Administrator on 2017/4/19 0019.
  */
 
-public class PetMessageWindow extends LinearLayout {
+public class PetMessageWindow extends RelativeLayout {
 
     /**
      * 当前手指在屏幕上的横坐标值
@@ -42,7 +45,7 @@ public class PetMessageWindow extends LinearLayout {
     /**
      *显示信息内容的textview
      */
-    private TextView msgTestView;
+    private TextView msgTextView;
 
     /**
      * view的宽
@@ -75,13 +78,10 @@ public class PetMessageWindow extends LinearLayout {
         super(context);
         this.context=context;
         View view= LayoutInflater.from(context).inflate(R.layout.pet_message_window,this);
-        View baseLayout=view.findViewById(R.id.pet_msg_window_layout);
         msgWindowBg=(RelativeLayout)view.findViewById(R.id.pet_msg_window_bg);
-        msgTestView=(TextView)view.findViewById(R.id.msg_textview);
+        msgTextView=(TextView)view.findViewById(R.id.msg_textview);
         //获取系统状态栏高度
         statusBarHeight= Utilities.getStatusBarHeight(context);
-        viewWidth=baseLayout.getLayoutParams().width;
-        viewHeight=baseLayout.getLayoutParams().height;
     }
 
     @Override
@@ -114,7 +114,8 @@ public class PetMessageWindow extends LinearLayout {
      * @param msg 要显示的信息
      */
     public void setMessage(String msg){
-        msgTestView.setText(msg);
+        Log.d("PetMessageWindow","setMessage");
+        msgTextView.setText(msg);
         textBuffer=msg;
         textBuffered=true;
     }
@@ -126,4 +127,6 @@ public class PetMessageWindow extends LinearLayout {
     public void setBackground(int resId){
         msgWindowBg.setBackgroundResource(resId);
     }
+
+
 }

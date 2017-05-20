@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
 
+    private Button testBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
         petSetBtn=(Button)findViewById(R.id.pet_set_btn);
         aboutBtn=(Button)findViewById(R.id.about_btn);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
+        testBtn=(Button)findViewById(R.id.test_btn);
 
     }
 
@@ -159,6 +162,12 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PetControl.displayPetMessage("这是十十十十十十个字这是十十十十十十个字这是十十十十十十个字");
+            }
+        });
 
     }
 
