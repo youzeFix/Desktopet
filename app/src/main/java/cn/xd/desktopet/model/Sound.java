@@ -6,7 +6,7 @@ package cn.xd.desktopet.model;
 
 public class Sound {
 
-    public static String defaultSoundPath="sdcard/BackInTime.mp3";
+    public static String defaultSoundPath="";
 
     private String name;
     private String path;

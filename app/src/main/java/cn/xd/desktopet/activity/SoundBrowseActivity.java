@@ -1,7 +1,10 @@
 package cn.xd.desktopet.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +31,8 @@ public class SoundBrowseActivity extends AppCompatActivity {
 
     private String title="BrowseSound";
 
+    private final int AUDIO_SCAN_FINISHED=0;
+
     private Toolbar toolbar;
 
     private ListView soundLv;
@@ -35,6 +40,23 @@ public class SoundBrowseActivity extends AppCompatActivity {
     private SoundListAdapter soundListAdapter;
 
     private List<Sound> soundListDatas;
+
+    private ProgressDialog progressDialog;
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case AUDIO_SCAN_FINISHED:
+                    closeWaitingDialog();
+                    initDatas();
+                    initStatus();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 
 
@@ -48,11 +70,25 @@ public class SoundBrowseActivity extends AppCompatActivity {
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
 
-        initDatas();
+        showWaitingDialog();
+
+        Thread scanAudioThread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                soundListDatas=new ArrayList<>();
+                List<File> soundFiles= FileUtil.getAudioFileInStorage();
+                for(File file:soundFiles){
+                    soundListDatas.add(new Sound(file.getName(),file.getAbsolutePath()));
+                }
+                Message msg=new Message();
+                msg.what=AUDIO_SCAN_FINISHED;
+                handler.sendMessage(msg);
+            }
+        });
+        scanAudioThread.start();
 
         setListener();
 
-        initStatus();
     }
 
     private void findViews(){
@@ -61,14 +97,10 @@ public class SoundBrowseActivity extends AppCompatActivity {
     }
 
     private void initDatas(){
-        soundListDatas=new ArrayList<>();
-        List<File> soundFiles= FileUtil.getAudioFileInStorage();
-        for(File file:soundFiles){
-            soundListDatas.add(new Sound(file.getName(),file.getAbsolutePath()));
-        }
         soundListAdapter=new SoundListAdapter(this,soundListDatas);
         soundLv.setAdapter(soundListAdapter);
     }
+
 
     private void setListener(){
         soundLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,6 +126,19 @@ public class SoundBrowseActivity extends AppCompatActivity {
         }
     }
 
+    private void showWaitingDialog(){
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在扫描音频文件，请稍等...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void closeWaitingDialog(){
+        progressDialog.cancel();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_soundbrowse,menu);
@@ -110,9 +155,13 @@ public class SoundBrowseActivity extends AppCompatActivity {
                     selectedSound=soundListDatas.get(selectedPosition);
                 }
                 Intent intent=new Intent();
-                intent.putExtra("soundName",selectedSound.getName());
-                intent.putExtra("soundPath",selectedSound.getPath());
-                setResult(RESULT_OK,intent);
+                if(selectedSound!=null){
+                    intent.putExtra("soundName",selectedSound.getName());
+                    intent.putExtra("soundPath",selectedSound.getPath());
+                    setResult(RESULT_OK,intent);
+                }else{
+                    setResult(RESULT_CANCELED,intent);
+                }
                 finish();
                 break;
             default:

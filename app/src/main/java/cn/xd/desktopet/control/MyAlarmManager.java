@@ -38,6 +38,8 @@ public class MyAlarmManager {
 
     private MyDatabaseHelper myDatabaseHelper;
 
+    private boolean alarmRinging=false;
+
 
 
     public static MyAlarmManager getInstance() {
@@ -199,6 +201,8 @@ public class MyAlarmManager {
     public void triggerAlarm(Context receiverContext){
         Log.d("MyAlarmManager","触发当前闹钟："+currentRunningAlarm.getStringTime());
 
+        alarmRinging=true;
+
 
         Intent intent=new Intent(context, SoundService.class);
         intent.putExtra("soundPath",currentRunningAlarm.getSoundPath());
@@ -208,18 +212,27 @@ public class MyAlarmManager {
          */
         receiverContext.startService(intent);
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(context);
-        builder.setTitle("闹钟");
-        builder.setMessage(currentRunningAlarm.getStringTime());
-        builder.setPositiveButton("关闭闹钟", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                context.stopService(new Intent(context,SoundService.class));
-            }
-        });
-        AlertDialog alertDialog=builder.create();
-        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        alertDialog.show();
+        if(MyWindowManager.isPetWindowShowing()){
+            PetControl.displayPetMessage(getCurrentRunningAlarm().getStringTime()+"的闹钟响啦！您可以通过" +
+                    "滑动宠物来关闭闹钟哦！");
+        }
+        else {
+            AlertDialog.Builder builder=new AlertDialog.Builder(context);
+            builder.setTitle("闹钟");
+            builder.setMessage(currentRunningAlarm.getStringTime());
+            builder.setPositiveButton("关闭闹钟", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    stopAlarmRing(context);
+                }
+            });
+            builder.setCancelable(false);
+            AlertDialog alertDialog=builder.create();
+            alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            alertDialog.show();
+        }
+
+
 
 
         if(currentRunningAlarm.getType()==Alarm.ONCE){
@@ -237,5 +250,12 @@ public class MyAlarmManager {
             myDatabaseHelper=new MyDatabaseHelper(context,"Alarm.db",null,1);
         }
         return myDatabaseHelper;
+    }
+    public void stopAlarmRing(Context context){
+        context.stopService(new Intent(context,SoundService.class));
+        alarmRinging=false;
+    }
+    public boolean isAlarmRinging(){
+        return alarmRinging;
     }
 }

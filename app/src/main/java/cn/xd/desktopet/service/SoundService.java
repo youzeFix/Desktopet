@@ -3,10 +3,13 @@ package cn.xd.desktopet.service;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
+
+import cn.xd.desktopet.R;
 
 /**
  * Created by Administrator on 2017/5/18 0018.
@@ -28,7 +31,13 @@ public class SoundService extends Service {
 
         mediaPlayer=new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(soundPath);
+            if(soundPath.equals("")){
+                String uriPath="android.resource://"+getPackageName()+"/"+R.raw.defaultalarmringtone;
+                mediaPlayer.setDataSource(this, Uri.parse(uriPath));
+            }else{
+                mediaPlayer.setDataSource(soundPath);
+            }
+            mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

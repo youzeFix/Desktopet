@@ -170,6 +170,10 @@ public class PetControl {
         if(MyWindowManager.msgWindowShow==true){
             MyWindowManager.updateMsgWindowPosition();
         }
+        MyAlarmManager myAlarmManager=MyAlarmManager.getInstance();
+        if(myAlarmManager.isAlarmRinging()){
+            myAlarmManager.stopAlarmRing(MyApplication.getContext());
+        }
     }
     public static void alarmBtnClick(){
         Toast.makeText(MyApplication.getContext(), "click alarm", Toast.LENGTH_SHORT).show();

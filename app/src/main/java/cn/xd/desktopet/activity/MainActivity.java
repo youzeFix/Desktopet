@@ -44,13 +44,6 @@ public class MainActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
 
-    /**
-     * 测试
-     */
-    private Button testBtn;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +80,6 @@ public class MainActivity extends AppCompatActivity{
         petSetBtn=(Button)findViewById(R.id.pet_set_btn);
         aboutBtn=(Button)findViewById(R.id.about_btn);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        //测试
-        testBtn=(Button)findViewById(R.id.test_btn);
 
     }
 
@@ -168,16 +159,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        /**
-         * 测试
-         */
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "测试", Toast.LENGTH_SHORT).show();
-                PetControl.displayPetMessage("测试信息窗口");
-            }
-        });
 
     }
 
