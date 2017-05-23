@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -202,7 +203,7 @@ public class MyWindowManager {
     /**创建信息悬浮窗
      * @param context
      */
-    public static boolean createPetMsgWindow(Context context){
+    public static boolean createPetMsgWindow(Context context,String msg){
         if(isPetShow==false)return false;
         if(petMessageWindow == null){
             petMessageWindow = new PetMessageWindow(context);
@@ -213,19 +214,36 @@ public class MyWindowManager {
                 petMsgWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                 petMsgWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
-                petMsgWindowParams.width = PetMessageWindow.viewWidth;
-                petMsgWindowParams.height = PetMessageWindow.viewHeight;
+                petMsgWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                petMsgWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
             }
+
+
             if(PetWindowSmallView.side==PetWindowSmallView.RIGHT){
-                petMsgWindowParams.x=mPetWindowSmallView.params.x-PetMessageWindow.viewWidth-
-                        PetWindowSmallView.mVieWidth;
-                petMessageWindow.setBackground(R.drawable.msg_window_bg_right);
+                petMessageWindow.setBackground(R.drawable.msg_window_right);
             }else{
-                petMsgWindowParams.x=mPetWindowSmallView.params.x+PetWindowSmallView.mVieWidth;
-                petMessageWindow.setBackground(R.drawable.msg_window_bg_left);
+                petMessageWindow.setBackground(R.drawable.msg_window_left);
             }
-            petMsgWindowParams.y = mPetWindowSmallView.params.y;
+
+            /**
+             * 手动测量设置了背景和文字的宠物信息窗口
+             */
+            int widthMs= View.MeasureSpec.makeMeasureSpec((1<<30)-1, View.MeasureSpec.AT_MOST);
+            int heightMs= View.MeasureSpec.makeMeasureSpec((1<<30)-1, View.MeasureSpec.AT_MOST);
+            petMessageWindow.setLayoutParams(petMsgWindowParams);
+            petMessageWindow.setMessage(msg);
+            petMessageWindow.measure(widthMs,heightMs);
+            int mw=petMessageWindow.getMeasuredWidth();
+            int mh=petMessageWindow.getMeasuredHeight();
+            Log.d("MyWindowManager","petMessageWindow测量，宽度为："+mw+"高度为："+mh);
+
+            if(PetWindowSmallView.side==PetWindowSmallView.RIGHT){
+                petMsgWindowParams.x=PetWindowSmallView.params.x-PetWindowSmallView.mVieWidth-mw;
+            }else{
+                petMsgWindowParams.x=PetWindowSmallView.params.x+PetWindowSmallView.mVieWidth;
+            }
+            petMsgWindowParams.y = mPetWindowSmallView.params.y-mh+PetWindowSmallView.mViewHeight;
             petMessageWindow.setLayoutParams(petMsgWindowParams);
             if(PetMessageWindow.textBuffered==true)petMessageWindow.setMessage(PetMessageWindow.textBuffer);
             mWindowManager.addView(petMessageWindow, petMsgWindowParams);
@@ -251,7 +269,7 @@ public class MyWindowManager {
     }
 
     public static void hangUpMsgWindow(){
-        petMsgWindowParams.x=screenWidth/2-PetMessageWindow.viewWidth/2;
+        petMsgWindowParams.x=screenWidth/2-petMessageWindow.getMeasuredWidth()/2;
         petMsgWindowParams.y=mSmallLayoutParams.y;
         mWindowManager.updateViewLayout(petMessageWindow,petMsgWindowParams);
     }

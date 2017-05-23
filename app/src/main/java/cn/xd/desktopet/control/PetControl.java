@@ -19,6 +19,7 @@ import cn.xd.desktopet.R;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.service.PetFreeService;
 import cn.xd.desktopet.util.MyApplication;
+import cn.xd.desktopet.view.PetMessageWindow;
 import cn.xd.desktopet.view.PetWindowSmallView;
 
 /**
@@ -140,8 +141,7 @@ public class PetControl {
     public static void displayPetMessage(String msg){
         if(MyWindowManager.petMenuShow==true)MyWindowManager.removePetMenu(MyApplication.getContext());
 
-        if(MyWindowManager.createPetMsgWindow(MyApplication.getContext())==false)return;
-        MyWindowManager.getPetMessageWindow().setMessage(msg);
+        if(MyWindowManager.createPetMsgWindow(MyApplication.getContext(),msg)==false)return;
         if(Pet.msgWindowAutoClose==true) {
             if (timer == null) timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -163,7 +163,7 @@ public class PetControl {
     public static void petClickUp(){
         if(MyWindowManager.msgWindowShow==true){
             MyWindowManager.removePetMsgWindow(MyApplication.getContext());
-            MyWindowManager.createPetMsgWindow(MyApplication.getContext());
+            MyWindowManager.createPetMsgWindow(MyApplication.getContext(), PetMessageWindow.textBuffer);
         }
     }
     public static void petMove(){
