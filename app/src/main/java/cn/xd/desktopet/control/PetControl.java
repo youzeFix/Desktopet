@@ -12,10 +12,14 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.xd.desktopet.BluetoothCombine.CombineActivity;
 import cn.xd.desktopet.R;
+import cn.xd.desktopet.activity.AlarmListActivity;
+import cn.xd.desktopet.activity.PetSettingActivity;
 import cn.xd.desktopet.model.Pet;
 import cn.xd.desktopet.service.PetFreeService;
 import cn.xd.desktopet.util.MyApplication;
@@ -96,18 +100,83 @@ public class PetControl {
      */
     public static int getPetImageRes(int theme,int type){
         int resId=-1;
-        if(theme==Pet.themeDefault&&type==Pet.typeStill)resId= R.drawable.beaver;
-        else if(theme==Pet.themeDefault&&type==Pet.typeClick)resId=R.drawable.dance;
-        else if(theme==Pet.themeDefault&&type==Pet.typeMove)resId=R.drawable.beaver;
-        else if(theme==Pet.themeDefault&&type==Pet.typeFree)resId=R.drawable.circle;
-        else if(theme==Pet.theme1&&type==Pet.typeStill)resId=R.drawable.beaver;
-        else if(theme==Pet.theme1&&type==Pet.typeClick)resId=R.drawable.beaver;
-        else if(theme==Pet.theme1&&type==Pet.typeMove)resId=R.drawable.beaver;
-        else if(theme==Pet.theme1&&type==Pet.typeFree)resId=R.drawable.beaver;
-        else if(theme==Pet.theme2&&type==Pet.typeStill)resId=R.drawable.beaver;
-        else if(theme==Pet.theme2&&type==Pet.typeClick)resId=R.drawable.beaver;
-        else if(theme==Pet.theme2&&type==Pet.typeMove)resId=R.drawable.beaver;
-        else if(theme==Pet.theme2&&type==Pet.typeFree)resId=R.drawable.beaver;
+        if(theme==Pet.themeDefault&&type==Pet.typeStill)resId= R.drawable.bluestill;
+        else if(theme==Pet.themeDefault&&type==Pet.typeFree)resId=getPetFreeMotionRes(theme);
+        else if(theme==Pet.theme1&&type==Pet.typeStill)resId=R.drawable.xinbastill;
+        else if(theme==Pet.theme1&&type==Pet.typeFree)resId=getPetFreeMotionRes(theme);
+        else if(theme==Pet.theme2&&type==Pet.typeStill)resId=R.drawable.alistill;
+        else if(theme==Pet.theme2&&type==Pet.typeFree)resId=getPetFreeMotionRes(theme);
+        return resId;
+    }
+
+    /**
+     * 根据宠物主体随机选择宠物的闲时动作
+     *
+     * @param theme 宠物主体
+     * @return  闲时动作gif资源id
+     */
+    private static int getPetFreeMotionRes(int theme){
+        int resId=-1;
+        Random random=new Random();
+        int resNum=random.nextInt(4);
+        switch (theme){
+            case Pet.themeDefault:
+                switch (resNum){
+                    case 0:
+                        resId=R.drawable.bluemotion1;
+                        break;
+                    case 1:
+                        resId=R.drawable.bluemotion2;
+                        break;
+                    case 2:
+                        resId=R.drawable.bluemotion3;
+                        break;
+                    case 3:
+                        resId=R.drawable.bluemotion4;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Pet.theme1:
+                switch (resNum){
+                    case 0:
+                        resId=R.drawable.xinbamotion1;
+                        break;
+                    case 1:
+                        resId=R.drawable.xinbamotion2;
+                        break;
+                    case 2:
+                        resId=R.drawable.xinbamotion3;
+                        break;
+                    case 3:
+                        resId=R.drawable.xinbamotion4;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Pet.theme2:
+                switch (resNum){
+                    case 0:
+                        resId=R.drawable.alimotion1;
+                        break;
+                    case 1:
+                        resId=R.drawable.alimotion2;
+                        break;
+                    case 2:
+                        resId=R.drawable.alimotion3;
+                        break;
+                    case 3:
+                        resId=R.drawable.alimotion4;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
         return resId;
     }
 
@@ -176,15 +245,28 @@ public class PetControl {
         }
     }
     public static void alarmBtnClick(){
-        Toast.makeText(MyApplication.getContext(), "click alarm", Toast.LENGTH_SHORT).show();
+        Context context=MyApplication.getContext();
+        Intent intent=new Intent(context,AlarmListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        MyWindowManager.removePetMenu(MyApplication.getContext());
+
     }
 
     public static void bluetoothBtnClick(){
-        Toast.makeText(MyApplication.getContext(), "click bluetooth", Toast.LENGTH_SHORT).show();
+        Context context=MyApplication.getContext();
+        Intent intent=new Intent(context,CombineActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        MyWindowManager.removePetMenu(MyApplication.getContext());
     }
 
     public static void settingBtnClick(){
-        Toast.makeText(MyApplication.getContext(), "click setting", Toast.LENGTH_SHORT).show();
+        Context context=MyApplication.getContext();
+        Intent intent=new Intent(context,PetSettingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        MyWindowManager.removePetMenu(MyApplication.getContext());
     }
 
 

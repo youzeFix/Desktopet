@@ -2,10 +2,15 @@
 <cn.xd.desktopet.view.SemiringLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:radius="50dp"
+    app:radius="80dp"
     app:side="left"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <Button
+        android:id="@+id/petmenu_home_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/home_btn_bg"/>
     <Button
         android:id="@+id/petmenu_alarm_btn"
         android:layout_width="40dp"
@@ -21,6 +26,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/bluetooth_btn_bg"/>
+    <Button
+        android:id="@+id/petmenu_cancel_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/cancel_btn_bg"/>
     <Button
         android:id="@+id/petmenu_close_btn"
         android:layout_width="40dp"

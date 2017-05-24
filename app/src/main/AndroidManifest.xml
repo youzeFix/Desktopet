@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,8 @@
         android:name=".util.MyApplication">
 
         <!--*************************activity**************************************-->
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -24,8 +26,9 @@
         </activity>
 
         <activity android:name=".BluetoothCombine.CombineActivity"
-            android:label="combine"
-            android:theme="@style/CombineTheme"/>
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            android:label="combine" />
 
         <activity
             android:name=".BluetoothCombine.DeviceListActivity"
@@ -33,11 +36,17 @@
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog"/>
 
-        <activity android:name=".activity.AlarmListActivity"/>
+        <activity android:name=".activity.AlarmListActivity"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".activity.AddAlarmActivity"/>
 
         <activity android:name=".activity.SoundBrowseActivity"/>
+
+        <activity android:name=".activity.PetSettingActivity"
+            android:launchMode="singleTask"/>
+
+        <activity android:name=".activity.AboutActivity"/>
 
         <!--*************************service**************************************-->
         <service android:name=".service.PetFreeService"
@@ -65,6 +74,11 @@
             <intent-filter>
                 <action android:name="cn.xd.desktopet.openalarm"/>
                 <action android:name="cn.xd.desktopet.closealarm"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.BootCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

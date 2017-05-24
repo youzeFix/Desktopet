@@ -4,4 +4,13 @@
         <item>一次</item>
         <item>每天</item>
     </string-array>
+    <string-array name="pet_theme">
+        <item>默认主题</item>
+        <item>辛巴狗</item>
+        <item>阿狸</item>
+    </string-array>
+    <string-array name="pet_sex">
+        <item>boy</item>
+        <item>girl</item>
+    </string-array>
 </resources>

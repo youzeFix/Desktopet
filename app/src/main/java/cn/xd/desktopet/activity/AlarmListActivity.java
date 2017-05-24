@@ -29,7 +29,7 @@ import cn.xd.desktopet.util.MyApplication;
  */
 
 public class AlarmListActivity extends AppCompatActivity {
-    private String title="AlarmList";
+    private String title="闹钟";
 
 
 
@@ -49,6 +49,8 @@ public class AlarmListActivity extends AppCompatActivity {
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initDatas();
 
@@ -122,6 +124,12 @@ public class AlarmListActivity extends AppCompatActivity {
                 builder.setNegativeButton("取消", null);
                 builder.show();
                 return true;
+            }
+        });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

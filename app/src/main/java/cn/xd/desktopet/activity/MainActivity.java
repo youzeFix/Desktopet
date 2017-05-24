@@ -37,7 +37,7 @@ import cn.xd.desktopet.util.Utilities;
 
 public class MainActivity extends AppCompatActivity{
 
-    private String title="MainActivity";
+    private String title="桌面宠物";
 
     private boolean accessibilityIsOpen=false;
 
@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity{
     private Button aboutBtn;
 
     private Toolbar toolbar;
-
-    private Button testBtn;
 
 
     @Override
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity{
         petSetBtn=(Button)findViewById(R.id.pet_set_btn);
         aboutBtn=(Button)findViewById(R.id.about_btn);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        testBtn=(Button)findViewById(R.id.test_btn);
     }
 
 
@@ -157,7 +154,6 @@ public class MainActivity extends AppCompatActivity{
         bluetoothBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "点击蓝牙按钮", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this,CombineActivity.class);
                 startActivity(intent);
             }
@@ -169,7 +165,8 @@ public class MainActivity extends AppCompatActivity{
         petSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "点击宠物设置按钮", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this,PetSettingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -179,16 +176,12 @@ public class MainActivity extends AppCompatActivity{
         aboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "点击关于按钮", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this,AboutActivity.class);
+                startActivity(intent);
             }
         });
 
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PetControl.displayPetMessage("这是十十十十十十个字，这是五个字");
-            }
-        });
+
     }
 
     private void initState(){

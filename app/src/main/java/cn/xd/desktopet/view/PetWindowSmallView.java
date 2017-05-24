@@ -129,8 +129,8 @@ public class PetWindowSmallView extends LinearLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //暂时关闭更换动画
-                petControl.stopPetFreeServiceTimerTask();
-                setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeClick));
+                //petControl.stopPetFreeServiceTimerTask();
+                //setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeClick));
                 petControl.petClickDown();
                 xInView = event.getX();
                 yInView = event.getY();
@@ -149,9 +149,9 @@ public class PetWindowSmallView extends LinearLayout {
                 petControl.petMove();
                 break;
             case MotionEvent.ACTION_UP:
-                setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
+                //setImageRes(PetControl.getPetImageRes(Pet.theme,Pet.typeStill));
                 //重新开启更换动画
-                petControl.startPetFreeServiceTimerTask();
+                //petControl.startPetFreeServiceTimerTask();
                 //贴边
                 toTheSide();
                 petControl.petClickUp();

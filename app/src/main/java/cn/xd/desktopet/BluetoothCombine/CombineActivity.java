@@ -72,7 +72,6 @@ public class CombineActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG,"here is running      1111111111111111111111111111111111111111111111111111");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.combine_activity);
         //获取控件
@@ -81,9 +80,15 @@ public class CombineActivity extends AppCompatActivity {
         setListener();
 
         Toolbar combine_toolbar = (Toolbar)findViewById(R.id.combine_activity_toolbar);
-        combine_toolbar.setTitle("Desktopet");
-        combine_toolbar.setSubtitle("Pets-Combine");
+        combine_toolbar.setTitle("蓝牙配对");
         setSupportActionBar(combine_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        combine_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         combine_toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
 
         // Get local Bluetooth adapter

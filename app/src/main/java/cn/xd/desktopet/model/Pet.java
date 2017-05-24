@@ -27,10 +27,6 @@ public class Pet {
      */
     //静止时显示的图片
     public static final int typeStill=0;
-    //点击时显示的图片
-    public static final int typeClick=1;
-    //移动时显示的图片
-    public static final int typeMove=2;
     //空闲时显示的图片
     public static final int typeFree=3;
 
@@ -43,7 +39,7 @@ public class Pet {
     /**
      * 闲时时间间隔，以秒为单位
      */
-    public static int freeTime=5;
+    public static int freeTime=6;
     /**
      * 闲时动画持续时间,以秒为单位
      */
@@ -51,7 +47,7 @@ public class Pet {
     /**
      * 信息窗口持续时间，以秒为单位
      */
-    public static int msgWindowContinueTime=5;
+    public static int msgWindowContinueTime=4;
     /**
      * 姓名
      */
@@ -64,17 +60,13 @@ public class Pet {
      * 主题
      */
     public static int theme;
-    /**
-     * 口头禅
-     */
-    public static String petPhrase;
+
 
     static {
         SharedPreferences sp = MyApplication.getContext().getSharedPreferences("pet", 0);
-        name = sp.getString("name", "UnKnow");
-        sex = sp.getString("sex", "Boy");
+        name = sp.getString("name", "UnKnown");
+        sex = sp.getString("sex", "UnKnown");
         theme = sp.getInt("theme", 0);
-        petPhrase = sp.getString("petPhrase", "No Content");
     }
 
 
@@ -86,13 +78,12 @@ public class Pet {
      *
      * @param context
      */
-    public static void save(Context context) {
+    public static void saveSetting(Context context) {
         SharedPreferences sp = context.getSharedPreferences("pet", 0);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("name", name);
         editor.putString("sex", sex);
         editor.putInt("theme", theme);
-        editor.putString("petPhrase", petPhrase);
         editor.commit();
     }
 

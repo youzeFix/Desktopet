@@ -11,12 +11,16 @@
         android:text="开启桌面宠物"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:id="@+id/display_pet_switch" />
 
     <Switch
         android:text="开启接受微信消息"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/mychat_message_switch" />
 
     <Button
@@ -42,11 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/about_btn" />
-    <Button
-        android:id="@+id/test_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test"/>
 
 
 </LinearLayout>

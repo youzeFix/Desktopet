@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pet_window_small_layout"
     android:orientation="vertical"
-    android:layout_width="50dp"
-    android:layout_height="50dp">
+    android:layout_width="60dp"
+    android:layout_height="60dp">
     <ImageView
         android:id="@+id/pet_imageview"
         android:layout_width="match_parent"

@@ -26,7 +26,7 @@ import cn.xd.desktopet.model.Sound;
 
 public class AddAlarmActivity extends AppCompatActivity {
 
-    private String title="AddAlarm";
+    private String title="添加闹钟";
 
 
     private Toolbar toolbar;
@@ -54,6 +54,8 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setListener();
 
@@ -114,6 +116,12 @@ public class AddAlarmActivity extends AppCompatActivity {
                 Intent intent=new Intent(AddAlarmActivity.this,SoundBrowseActivity.class);
                 intent.putExtra("currSoundName",soundNameTv.getText());
                 startActivityForResult(intent,1);
+            }
+        });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

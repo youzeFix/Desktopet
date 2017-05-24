@@ -29,7 +29,7 @@ import cn.xd.desktopet.util.FileUtil;
 
 public class SoundBrowseActivity extends AppCompatActivity {
 
-    private String title="BrowseSound";
+    private String title="闹铃选择";
 
     private final int AUDIO_SCAN_FINISHED=0;
 
@@ -70,6 +70,8 @@ public class SoundBrowseActivity extends AppCompatActivity {
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         showWaitingDialog();
 
         Thread scanAudioThread=new Thread(new Runnable() {
@@ -109,7 +111,12 @@ public class SoundBrowseActivity extends AppCompatActivity {
                 soundListAdapter.changeSelected(position);
             }
         });
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     private void initStatus(){
         Intent intent=getIntent();
