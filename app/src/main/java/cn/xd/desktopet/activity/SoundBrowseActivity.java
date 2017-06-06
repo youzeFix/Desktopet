@@ -1,18 +1,25 @@
 package cn.xd.desktopet.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,6 +79,16 @@ public class SoundBrowseActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setListener();
+        if(checkPermission()){
+            scanAudio();
+        }
+        else {
+            requestPermission();
+        }
+
+    }
+    private void scanAudio(){
         showWaitingDialog();
 
         Thread scanAudioThread=new Thread(new Runnable() {
@@ -88,9 +105,17 @@ public class SoundBrowseActivity extends AppCompatActivity {
             }
         });
         scanAudioThread.start();
+    }
 
-        setListener();
-
+    private boolean checkPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            return false;
+        }
+        return true;
+    }
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
     }
 
     private void findViews(){
@@ -175,5 +200,21 @@ public class SoundBrowseActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(checkPermission()){
+                    scanAudio();
+                }else{
+                    Toast.makeText(this, "权限未开启", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
