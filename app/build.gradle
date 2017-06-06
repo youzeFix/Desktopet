@@ -26,6 +26,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.15'
     testCompile 'junit:junit:4.12'
     compile files('lib/glide-3.7.0.jar')
 }

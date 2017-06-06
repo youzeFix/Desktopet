@@ -16,6 +16,7 @@ import cn.xd.desktopet.util.MyApplication;
 import cn.xd.desktopet.control.MyWindowManager;
 import cn.xd.desktopet.control.PetControl;
 import cn.xd.desktopet.util.Utilities;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by Administrator on 2017/4/18 0018.
@@ -78,7 +79,7 @@ public class PetWindowSmallView extends LinearLayout {
     /**
      * 用与展示图片的imageview
      */
-    private ImageView imageView;
+    private GifImageView imageView;
     /**
      * 保存上下文环境对象
      */
@@ -107,7 +108,7 @@ public class PetWindowSmallView extends LinearLayout {
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         View view = LayoutInflater.from(context).inflate(R.layout.pet_window_small, this);
         View baseView=view.findViewById(R.id.pet_window_small_layout);
-        imageView = (ImageView) view.findViewById(R.id.pet_imageview);
+        imageView = (GifImageView) view.findViewById(R.id.pet_imageview);
         //获取系统状态栏的高度
         statusBarHeight = Utilities.getStatusBarHeight(context);
         //获取屏幕宽高
@@ -198,7 +199,7 @@ public class PetWindowSmallView extends LinearLayout {
      * @param resId    要使用的资源id
      */
     public void setImageRes(Integer resId) {
-        Glide.with(context).load(resId).into(imageView);
+        imageView.setBackgroundResource(resId);
     }
 
 
