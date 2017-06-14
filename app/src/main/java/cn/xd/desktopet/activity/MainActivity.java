@@ -1,17 +1,23 @@
 package cn.xd.desktopet.activity;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -37,21 +43,32 @@ import cn.xd.desktopet.util.Utilities;
 
 public class MainActivity extends AppCompatActivity{
 
-    private String title="桌面宠物";
 
     private boolean accessibilityIsOpen=false;
+
+    private final int btnAnimDuration=500;
+
+    private final String petOnBtnMsg="桌面宠物已开启";
+    private final String petOffBtnMsg="桌面宠物已关闭";
+
+    private final String mychatOnMsg="微信消息提醒已开启";
+    private final String mychatOffMsg="微信消息提醒已关闭";
 
     /**
      * 控件
      */
-    private Switch displayPetSwitch;
-    private Switch mychatMessageSwitch;
-    private Button clockBtn;
+    private Button petToggleBtn;
+    private Button mychatMsgToggleBtn;
+    private Button alarmBtn;
     private Button bluetoothBtn;
-    private Button petSetBtn;
+    private Button petSettingBtn;
     private Button aboutBtn;
 
-    private Toolbar toolbar;
+    private boolean petToggleBtnState=false;
+    private boolean mychatMsgToggleBtnState=false;
+
+
+    private Handler handler=new Handler();
 
 
     @Override
@@ -61,9 +78,6 @@ public class MainActivity extends AppCompatActivity{
 
         //获取控件
         findView();
-        //设置toolbar
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
 
         //初始化状态
         initState();
@@ -78,13 +92,12 @@ public class MainActivity extends AppCompatActivity{
      * 获取控件
      */
     private void findView(){
-        displayPetSwitch=(Switch)findViewById(R.id.display_pet_switch);
-        mychatMessageSwitch=(Switch)findViewById(R.id.mychat_message_switch);
-        clockBtn=(Button)findViewById(R.id.clock_btn);
+        petToggleBtn=(Button) findViewById(R.id.pet_toggle_btn);
+        mychatMsgToggleBtn=(Button) findViewById(R.id.mychat_msg_toggle_btn);
+        alarmBtn=(Button)findViewById(R.id.alarm_btn);
         bluetoothBtn=(Button)findViewById(R.id.bluetooth_btn);
-        petSetBtn=(Button)findViewById(R.id.pet_set_btn);
+        petSettingBtn=(Button)findViewById(R.id.pet_setting_btn);
         aboutBtn=(Button)findViewById(R.id.about_btn);
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
     }
 
 
@@ -92,55 +105,69 @@ public class MainActivity extends AppCompatActivity{
      * 设置各控件监听器
      */
     private void setListener(){
-        /**
-         * 宠物显示开关状态改变监听
-         */
-        displayPetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        petToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+            public void onClick(View v) {
+                if(!petToggleBtnState){
                     if(checkFloatWindowPermission()){
-                        MyWindowManager.createPetSmallWindow(getApplicationContext());
+                        startBtnOnAnim(petToggleBtn, petOnBtnMsg, new Runnable() {
+                            @Override
+                            public void run() {
+                                MyWindowManager.createPetSmallWindow(getApplicationContext());
+                            }
+                        });
+
                     }else{
                         requestFloatWindowPermission();
                     }
+                }else {
+                    startBtnOffAnim(petToggleBtn, petOffBtnMsg, new Runnable() {
+                        @Override
+                        public void run() {
+                            MyWindowManager.removePetSmallWindow(getApplicationContext());
+                        }
+                    });
+                }
+                petToggleBtnState=!petToggleBtnState;
+
 
                 }
-                else{
-                    MyWindowManager.removePetSmallWindow(getApplicationContext());
-                }
 
-            }
+
         });
-        /**
-         * 接受微信消息开关状态改变监听器
-         */
-        mychatMessageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        mychatMsgToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+            public void onClick(View v) {
+                if(!mychatMsgToggleBtnState){
                     if(checkAccessibilityPermission()){
-                        MMListenService.isRunning=true;
-                        startService(new Intent(MainActivity.this, MMListenService.class));
-                        Toast.makeText(MainActivity.this, "微信消息提醒服务已开启", Toast.LENGTH_SHORT).show();
+                        startBtnOnAnim(mychatMsgToggleBtn, mychatOnMsg, new Runnable() {
+                            @Override
+                            public void run() {
+                                MMListenService.isRunning=true;
+                                startService(new Intent(MainActivity.this,MMListenService.class));
+                            }
+                        });
                     }else{
                         requestAccessibilityPermission();
                     }
-
                 }else{
-                    if(checkAccessibilityPermission()){
-                        MMListenService.isRunning=false;
-                        Toast.makeText(MainActivity.this, "微信消息提醒服务已关闭", Toast.LENGTH_SHORT).show();
-                    }
-
+                    startBtnOffAnim(mychatMsgToggleBtn, mychatOffMsg, new Runnable() {
+                        @Override
+                        public void run() {
+                            MMListenService.isRunning=false;
+                        }
+                    });
                 }
+                mychatMsgToggleBtnState=!mychatMsgToggleBtnState;
+
             }
         });
 
         /**
          * 闹铃按钮点击事件
          */
-        clockBtn.setOnClickListener(new View.OnClickListener() {
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,AlarmListActivity.class);
@@ -162,7 +189,7 @@ public class MainActivity extends AppCompatActivity{
         /**
          * 宠物设置按钮点击事件
          */
-        petSetBtn.setOnClickListener(new View.OnClickListener() {
+        petSettingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,PetSettingActivity.class);
@@ -184,19 +211,128 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void initState(){
-        if(MyWindowManager.isPetWindowShowing()){
-            displayPetSwitch.setChecked(true);
-        }else{
-            displayPetSwitch.setChecked(false);
-        }
-        if(MMListenService.isRunning){
-            mychatMessageSwitch.setChecked(true);
-        }else{
-            mychatMessageSwitch.setChecked(false);
-        }
+    private void startBtnOnAnim(final Button button, final String btnTextNew, final Runnable animEndRun){
+        AnimatorSet animatorSet=new AnimatorSet();
+        Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg_pressed);
+        bgNew.setAlpha(30);
+        button.setBackground(bgNew);
+        ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
+        ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgNew,"alpha",30,255);
+        ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
+        ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
+        animatorSet.setDuration(btnAnimDuration);
+        animatorSet.setInterpolator(new AccelerateInterpolator());
+        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setText(btnTextNew);
+                    }
+                },btnAnimDuration/2);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                animEndRun.run();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet.start();
+
     }
 
+    private void startBtnOffAnim(final Button button, final String btnTextNew, final Runnable animEndRun){
+        AnimatorSet animatorSet=new AnimatorSet();
+        Drawable bgOld=button.getBackground();
+        final Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg);
+
+        ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
+        ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgOld,"alpha",255,30);
+        ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
+        ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
+        animatorSet.setDuration(btnAnimDuration);
+        animatorSet.setInterpolator(new AccelerateInterpolator());
+        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setText(btnTextNew);
+                    }
+                },btnAnimDuration/2);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                animEndRun.run();
+                button.setBackground(bgNew);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet.start();
+    }
+
+    private void initState(){
+        if(MyWindowManager.isPetWindowShowing()){
+            changeBtnState(petToggleBtn,true);
+        }else{
+            changeBtnState(petToggleBtn,false);
+        }
+        if(MMListenService.isRunning){
+            changeBtnState(mychatMsgToggleBtn,true);
+        }else{
+            changeBtnState(mychatMsgToggleBtn,false);
+        }
+    }
+    private void changeBtnState(Button button,boolean state){
+        switch (button.getId()){
+            case R.id.pet_toggle_btn:
+                if(state){
+                    petToggleBtn.setText(petOnBtnMsg);
+                    petToggleBtn.setBackgroundResource(R.drawable.btn_bg_pressed);
+                }else{
+                    petToggleBtn.setText(petOffBtnMsg);
+                    petToggleBtn.setBackgroundResource(R.drawable.btn_bg);
+                }
+                petToggleBtnState=state;
+                break;
+            case R.id.mychat_msg_toggle_btn:
+                if(state){
+                    mychatMsgToggleBtn.setText(mychatOnMsg);
+                    mychatMsgToggleBtn.setBackgroundResource(R.drawable.btn_bg_pressed);
+                }else{
+                    mychatMsgToggleBtn.setText(mychatOffMsg);
+                    mychatMsgToggleBtn.setBackgroundResource(R.drawable.btn_bg);
+                }
+                mychatMsgToggleBtnState=state;
+                break;
+            default:
+                break;
+        }
+    }
     private boolean checkFloatWindowPermission(){
         /**
          * 检测安卓6.0以上动态申请悬浮窗权限
@@ -254,18 +390,19 @@ public class MainActivity extends AppCompatActivity{
                         MMListenService.isRunning=true;
                         startService(new Intent(this, MMListenService.class));
                         Toast.makeText(this, "微信消息提醒服务已开启", Toast.LENGTH_SHORT).show();
+                        changeBtnState(mychatMsgToggleBtn,true);
                         return;
                     }
                 }
                 Toast.makeText(this, "微信消息提醒服务未开启", Toast.LENGTH_SHORT).show();
-                mychatMessageSwitch.setChecked(false);
+                changeBtnState(mychatMsgToggleBtn,false);
                 break;
             case 2:
                 if(Build.VERSION.SDK_INT>=23){
                     if(Settings.canDrawOverlays(this))MyWindowManager.createPetSmallWindow(this);
                     else {
                         Toast.makeText(this, "悬浮窗权限未开启", Toast.LENGTH_SHORT).show();
-                        displayPetSwitch.setChecked(false);
+                        changeBtnState(petToggleBtn,false);
                     }
                 }
                 break;
@@ -273,6 +410,8 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
     }
+
+
 
     @Override
     protected void onDestroy() {

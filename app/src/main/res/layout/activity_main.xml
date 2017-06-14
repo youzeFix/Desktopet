@@ -2,50 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
-
-    <Switch
-        android:text="开启桌面宠物"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <Button
+            android:id="@+id/pet_toggle_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="桌面宠物已关闭"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+        <Button
+            android:id="@+id/mychat_msg_toggle_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="微信消息监听已关闭"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/display_pet_switch" />
-
-    <Switch
-        android:text="开启接受微信消息"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
+        <Button
+            android:id="@+id/alarm_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="闹钟"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+        <Button
+            android:id="@+id/bluetooth_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="蓝牙"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/mychat_message_switch" />
-
-    <Button
-        android:text="闹铃"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/clock_btn" />
-
-    <Button
-        android:text="蓝牙"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bluetooth_btn" />
-
-    <Button
-        android:text="宠物设置"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pet_set_btn" />
-
-    <Button
-        android:text="关于"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/about_btn" />
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
+        <Button
+            android:id="@+id/pet_setting_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="宠物设置"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+        <Button
+            android:id="@+id/about_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="关于Desktopet"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_bg"/>
+    </LinearLayout>
 
 </LinearLayout>
