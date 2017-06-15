@@ -19,10 +19,7 @@
         <!--*************************activity**************************************-->
         <activity android:name=".activity.MainActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
 
         <activity android:name=".BluetoothCombine.CombineActivity"
@@ -47,6 +44,12 @@
             android:launchMode="singleTask"/>
 
         <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <!--*************************service**************************************-->
         <service android:name=".service.PetFreeService"
