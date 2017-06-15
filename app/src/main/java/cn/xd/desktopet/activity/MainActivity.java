@@ -20,6 +20,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -48,21 +49,16 @@ public class MainActivity extends AppCompatActivity{
 
     private final int btnAnimDuration=500;
 
-    private final String petOnBtnMsg="桌面宠物已开启";
-    private final String petOffBtnMsg="桌面宠物已关闭";
-
-    private final String mychatOnMsg="微信消息提醒已开启";
-    private final String mychatOffMsg="微信消息提醒已关闭";
 
     /**
      * 控件
      */
-    private Button petToggleBtn;
-    private Button mychatMsgToggleBtn;
-    private Button alarmBtn;
-    private Button bluetoothBtn;
-    private Button petSettingBtn;
-    private Button aboutBtn;
+    private ImageButton petToggleBtn;
+    private ImageButton mychatMsgToggleBtn;
+    private ImageButton alarmBtn;
+    private ImageButton bluetoothBtn;
+    private ImageButton petSettingBtn;
+    private ImageButton aboutBtn;
 
     private boolean petToggleBtnState=false;
     private boolean mychatMsgToggleBtnState=false;
@@ -92,12 +88,13 @@ public class MainActivity extends AppCompatActivity{
      * 获取控件
      */
     private void findView(){
-        petToggleBtn=(Button) findViewById(R.id.pet_toggle_btn);
-        mychatMsgToggleBtn=(Button) findViewById(R.id.mychat_msg_toggle_btn);
-        alarmBtn=(Button)findViewById(R.id.alarm_btn);
-        bluetoothBtn=(Button)findViewById(R.id.bluetooth_btn);
-        petSettingBtn=(Button)findViewById(R.id.pet_setting_btn);
-        aboutBtn=(Button)findViewById(R.id.about_btn);
+        petToggleBtn=(ImageButton) findViewById(R.id.pet_toggle_btn);
+        mychatMsgToggleBtn=(ImageButton) findViewById(R.id.mychat_msg_toggle_btn);
+        alarmBtn=(ImageButton)findViewById(R.id.alarm_btn);
+        bluetoothBtn=(ImageButton)findViewById(R.id.bluetooth_btn);
+        petSettingBtn=(ImageButton)findViewById(R.id.pet_setting_btn);
+        aboutBtn=(ImageButton)findViewById(R.id.about_btn);
+
     }
 
 
@@ -110,7 +107,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 if(!petToggleBtnState){
                     if(checkFloatWindowPermission()){
-                        startBtnOnAnim(petToggleBtn, petOnBtnMsg, new Runnable() {
+                        startBtnOnAnim(petToggleBtn, R.drawable.ic_sentiment_satisfied_per100_60dp, new Runnable() {
                             @Override
                             public void run() {
                                 MyWindowManager.createPetSmallWindow(getApplicationContext());
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity{
                         requestFloatWindowPermission();
                     }
                 }else {
-                    startBtnOffAnim(petToggleBtn, petOffBtnMsg, new Runnable() {
+                    startBtnOffAnim(petToggleBtn, R.drawable.pet_toggle_btn_src, new Runnable() {
                         @Override
                         public void run() {
                             MyWindowManager.removePetSmallWindow(getApplicationContext());
@@ -141,7 +138,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 if(!mychatMsgToggleBtnState){
                     if(checkAccessibilityPermission()){
-                        startBtnOnAnim(mychatMsgToggleBtn, mychatOnMsg, new Runnable() {
+                        startBtnOnAnim(mychatMsgToggleBtn, R.drawable.ic_message_per100_60dp, new Runnable() {
                             @Override
                             public void run() {
                                 MMListenService.isRunning=true;
@@ -152,7 +149,7 @@ public class MainActivity extends AppCompatActivity{
                         requestAccessibilityPermission();
                     }
                 }else{
-                    startBtnOffAnim(mychatMsgToggleBtn, mychatOffMsg, new Runnable() {
+                    startBtnOffAnim(mychatMsgToggleBtn, R.drawable.mychat_toggle_btn_bg_src, new Runnable() {
                         @Override
                         public void run() {
                             MMListenService.isRunning=false;
@@ -211,32 +208,38 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void startBtnOnAnim(final Button button, final String btnTextNew, final Runnable animEndRun){
+    private void startBtnOnAnim(final ImageButton button, final int srcNewId, final Runnable animEndRun){
         AnimatorSet animatorSet=new AnimatorSet();
         Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg_pressed);
+        Drawable srcNew=getResources().getDrawable(srcNewId);
+        srcNew.setAlpha(30);
         bgNew.setAlpha(30);
         button.setBackground(bgNew);
         ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
         ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgNew,"alpha",30,255);
+        ObjectAnimator srcAnim=ObjectAnimator.ofInt(srcNew,"alpha",30,255);
         ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
         ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
         animatorSet.setDuration(btnAnimDuration);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
+        animatorSet.playTogether(btnAnim,bgAnim,srcAnim,scaleXAnim,scaleYAnim);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        button.setText(btnTextNew);
-                    }
-                },btnAnimDuration/2);
-            }
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            button.setImageResource(srcNewId);
+                        }
+                    },btnAnimDuration/2);
+                }
+
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 animEndRun.run();
+
             }
 
             @Override
@@ -253,33 +256,37 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void startBtnOffAnim(final Button button, final String btnTextNew, final Runnable animEndRun){
+    private void startBtnOffAnim(final ImageButton button, final int srcNewId, final Runnable animEndRun){
         AnimatorSet animatorSet=new AnimatorSet();
         Drawable bgOld=button.getBackground();
+        Drawable srcOld=button.getDrawable();
         final Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg);
-
         ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
         ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgOld,"alpha",255,30);
+        ObjectAnimator srcAnim=ObjectAnimator.ofInt(srcOld,"alpha",255,30);
         ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
         ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
         animatorSet.setDuration(btnAnimDuration);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
+        animatorSet.playTogether(btnAnim,bgAnim,srcAnim,scaleXAnim,scaleYAnim);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        button.setText(btnTextNew);
-                    }
-                },btnAnimDuration/2);
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            button.setImageResource(srcNewId);
+                        }
+                    },btnAnimDuration/2);
+
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 animEndRun.run();
                 button.setBackground(bgNew);
+
             }
 
             @Override
@@ -307,25 +314,25 @@ public class MainActivity extends AppCompatActivity{
             changeBtnState(mychatMsgToggleBtn,false);
         }
     }
-    private void changeBtnState(Button button,boolean state){
+    private void changeBtnState(ImageButton button,boolean state){
         switch (button.getId()){
             case R.id.pet_toggle_btn:
                 if(state){
-                    petToggleBtn.setText(petOnBtnMsg);
                     petToggleBtn.setBackgroundResource(R.drawable.btn_bg_pressed);
+                    petToggleBtn.setImageResource(R.drawable.ic_sentiment_satisfied_per100_60dp);
                 }else{
-                    petToggleBtn.setText(petOffBtnMsg);
                     petToggleBtn.setBackgroundResource(R.drawable.btn_bg);
+                    petToggleBtn.setImageResource(R.drawable.pet_toggle_btn_src);
                 }
                 petToggleBtnState=state;
                 break;
             case R.id.mychat_msg_toggle_btn:
                 if(state){
-                    mychatMsgToggleBtn.setText(mychatOnMsg);
                     mychatMsgToggleBtn.setBackgroundResource(R.drawable.btn_bg_pressed);
+                    mychatMsgToggleBtn.setImageResource(R.drawable.ic_message_per100_60dp);
                 }else{
-                    mychatMsgToggleBtn.setText(mychatOffMsg);
                     mychatMsgToggleBtn.setBackgroundResource(R.drawable.btn_bg);
+                    mychatMsgToggleBtn.setImageResource(R.drawable.mychat_toggle_btn_bg_src);
                 }
                 mychatMsgToggleBtnState=state;
                 break;

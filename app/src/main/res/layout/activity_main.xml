@@ -8,21 +8,19 @@
         android:layout_weight="1"
         android:orientation="horizontal"
         android:padding="10dp">
-        <Button
+        <ImageButton
             android:id="@+id/pet_toggle_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="桌面宠物已关闭"
-            android:layout_margin="20dp"
+            android:src="@drawable/pet_toggle_btn_src"
             android:background="@drawable/btn_bg"/>
-        <Button
+        <ImageButton
             android:id="@+id/mychat_msg_toggle_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="微信消息监听已关闭"
-            android:layout_margin="20dp"
+            android:src="@drawable/mychat_toggle_btn_bg_src"
             android:background="@drawable/btn_bg"/>
     </LinearLayout>
     <LinearLayout
@@ -33,21 +31,19 @@
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:paddingRight="10dp">
-        <Button
+        <ImageButton
             android:id="@+id/alarm_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="闹钟"
-            android:layout_margin="20dp"
+            android:src="@drawable/alarm_btn_src"
             android:background="@drawable/btn_bg"/>
-        <Button
+        <ImageButton
             android:id="@+id/bluetooth_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="蓝牙"
-            android:layout_margin="20dp"
+            android:src="@drawable/bluetooth_btn_src"
             android:background="@drawable/btn_bg"/>
     </LinearLayout>
     <LinearLayout
@@ -58,21 +54,19 @@
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:paddingRight="10dp">
-        <Button
+        <ImageButton
             android:id="@+id/pet_setting_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="宠物设置"
-            android:layout_margin="20dp"
+            android:src="@drawable/settings_btn_src"
             android:background="@drawable/btn_bg"/>
-        <Button
+        <ImageButton
             android:id="@+id/about_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="关于Desktopet"
-            android:layout_margin="20dp"
+            android:src="@drawable/about_btn_src"
             android:background="@drawable/btn_bg"/>
     </LinearLayout>
 
