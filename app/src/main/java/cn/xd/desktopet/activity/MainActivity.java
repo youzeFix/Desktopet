@@ -211,18 +211,15 @@ public class MainActivity extends AppCompatActivity{
     private void startBtnOnAnim(final ImageButton button, final int srcNewId, final Runnable animEndRun){
         AnimatorSet animatorSet=new AnimatorSet();
         Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg_pressed);
-        Drawable srcNew=getResources().getDrawable(srcNewId);
-        srcNew.setAlpha(30);
         bgNew.setAlpha(30);
         button.setBackground(bgNew);
         ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
         ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgNew,"alpha",30,255);
-        ObjectAnimator srcAnim=ObjectAnimator.ofInt(srcNew,"alpha",30,255);
         ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
         ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
         animatorSet.setDuration(btnAnimDuration);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.playTogether(btnAnim,bgAnim,srcAnim,scaleXAnim,scaleYAnim);
+        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -259,16 +256,16 @@ public class MainActivity extends AppCompatActivity{
     private void startBtnOffAnim(final ImageButton button, final int srcNewId, final Runnable animEndRun){
         AnimatorSet animatorSet=new AnimatorSet();
         Drawable bgOld=button.getBackground();
-        Drawable srcOld=button.getDrawable();
+        //Drawable srcOld=button.getDrawable();
         final Drawable bgNew=getResources().getDrawable(R.drawable.btn_bg);
         ObjectAnimator btnAnim=ObjectAnimator.ofFloat(button,"rotationY",0,360);
         ObjectAnimator bgAnim=ObjectAnimator.ofInt(bgOld,"alpha",255,30);
-        ObjectAnimator srcAnim=ObjectAnimator.ofInt(srcOld,"alpha",255,30);
+        //ObjectAnimator srcAnim=ObjectAnimator.ofInt(srcOld,"alpha",255,30);
         ObjectAnimator scaleXAnim=ObjectAnimator.ofFloat(button,"scaleX",1.0f,0.2f,1.0f);
         ObjectAnimator scaleYAnim=ObjectAnimator.ofFloat(button,"scaleY",1.0f,0.2f,1.0f);
         animatorSet.setDuration(btnAnimDuration);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.playTogether(btnAnim,bgAnim,srcAnim,scaleXAnim,scaleYAnim);
+        animatorSet.playTogether(btnAnim,bgAnim,scaleXAnim,scaleYAnim);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
